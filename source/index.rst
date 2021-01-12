@@ -28,7 +28,7 @@ xchain文档
 
 .. toctree::
    :maxdepth: 2
-   :caption: 快速入门:
+   :caption: 快速入门--:
    :numbered:
 
    quickstart/deploy

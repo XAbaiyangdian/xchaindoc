@@ -9,14 +9,14 @@ xchain文档
 
 .. toctree::
    :maxdepth: 2
-   :caption: 实验室介绍:
+   :caption: 雄安区块链实验室:
    :numbered:
 
    lab
 
 .. toctree::
    :maxdepth: 2
-   :caption: xchain介绍:
+   :caption: 相关概念:
    :numbered:
 
    introduction/brief
@@ -55,17 +55,33 @@ xchain文档
 
 .. toctree::
    :maxdepth: 2
-   :caption: 命令参考:
+   :caption: 案例:
+   :numbered:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: RestAPI:
+   :numbered:
+
+   RestAPI/RestAPI
+   
+.. toctree::
+   :maxdepth: 2
+   :caption: 命令参考手册:
    :numbered:
 
    reference/reference
 
 .. toctree::
    :maxdepth: 2
-   :caption: RPC接口:
+   :caption: 术语表:
    :numbered:
 
-   api/rpc
+.. toctree::
+   :maxdepth: 2
+   :caption: FAQ:
+   :numbered:
+   
 
 Indices and tables
 ==================

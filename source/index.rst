@@ -36,11 +36,14 @@ xchain文档
 
 .. toctree::
    :maxdepth: 2
-   :caption: 开发应用:
+   :caption: XChain应用接入指南:
    :numbered:
 
-   development/ready
-   development/dev
+   ApplicationAccess/MediumAccess
+   ApplicationAccess/Environment
+   ApplicationAccess/SmartContractDevelopment
+   ApplicationAccess/SmartContractDeployment
+   ApplicationAccess/SmartContractCall   
 
 .. toctree::
    :maxdepth: 2

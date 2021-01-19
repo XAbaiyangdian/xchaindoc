@@ -6,7 +6,7 @@
 
 - 按照官方安装Go环境，本教程推荐使用1.14.4版本。安装好后，在命令行输入`go version`验证版本:
 
-    ![Go语言版本验证](../picture/bf865cbd4895e0ba892c6bb1d833144e.png "Go语言版本验证")
+    ![Go语言版本验证](picture/bf865cbd4895e0ba892c6bb1d833144e.png "Go语言版本验证")
 
     如上图所示， golang1.14.4版本运行环境已经安装成功
 
@@ -25,7 +25,7 @@
 
 - 安装后，通过`cargo version`命令获取cargo版本，如下图：
 
-    ![cargo版本验证](../picture/148c3f306f4f54841b889b5f00e5833b.png "cargo版本验证")
+    ![cargo版本验证](picture/148c3f306f4f54841b889b5f00e5833b.png "cargo版本验证")
 
 - 运行版本低于1.44.1，用下面命令更新：
 

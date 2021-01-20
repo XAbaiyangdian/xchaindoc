@@ -22,7 +22,7 @@
     ```
     xccli query wasm contract-state smart patient '{"query_patients":{"precardid":"11010119001209090"}}' --node tcp://localhost:26657 --chain-id=namechain
     ```
-    ![](../image/44c4d5529f5967328766d232ba5fa72b.png)
+    ![](picture/44c4d5529f5967328766d232ba5fa72b.png)
 
 - 查询交易状态代码如下：
 

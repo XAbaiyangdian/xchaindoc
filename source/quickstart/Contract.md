@@ -12,7 +12,7 @@
 
   根据网络情况稍等一段时间后，合约编译完成结果如下所示:
 
-  ![](C:/Users/xa/Desktop/实验室/media/37465c008587d7f0ee3e42e65cfbb9e2.png)
+  ![](contract1.png)
 
   删除.package-cache文件
 
@@ -42,7 +42,7 @@
   xccli config
   ```
 
-  ![](C:/Users/xa/Desktop/实验室/media/4280cb852d6ef8e98473ae961dff0c83.png)
+  ![](contract2.png)
 
   上传合约的具体样例：
 
@@ -52,7 +52,7 @@
   --chain-id=xchain
   ```
 
-  ![](C:/Users/xa/Desktop/实验室/media/d72b9484800f7a15368246a6cdf8ca2d.png)
+  ![](contract3.png)
 
   合约上传成功后，通过下面命令获取到刚上传合约的id
 
@@ -66,7 +66,7 @@
   xccli query wasm list-code --node tcp://localhost:26657
   ```
 
-  ![](C:/Users/xa/Desktop/实验室/media/5c3189e54f3a7a7b2e70676e1ce82fac.png)
+  ![](contract4.png)
 
   合约安装、初始化
 
@@ -83,7 +83,7 @@
   --gas-adjustment="1.2" -y --node tcp://localhost:26657 --chain-id=namechain
   ```
 
-  ![](C:/Users/xa/Desktop/实验室/media/109b5c572e9245c738e085bf75784b63.png)
+  ![](contract5.png)
 
 - 合约调用
 
@@ -107,7 +107,7 @@
 
   上传结果如下所示：
 
-  ![](C:/Users/xa/Desktop/实验室/media/4bb7aef0f685f7bd33900b1f6929ccdd.png)
+  ![](contract6.png)
 
   命令行调用合约查询方法:
 
@@ -124,7 +124,7 @@
   tcp://localhost:26657 --chain-id=namechain
   ```
 
-  ![](C:/Users/xa/Desktop/实验室/media/44c4d5529f5967328766d232ba5fa72b.png)
+  ![](contract7.png)
 
   查询交易状态代码如下：
 
@@ -134,4 +134,4 @@
 
   本说明样例如下：
 
-  ![](C:/Users/xa/Desktop/实验室/media/8dd591e81c93431320f03b105bda5f8a.png)
+  ![](contract8.png)

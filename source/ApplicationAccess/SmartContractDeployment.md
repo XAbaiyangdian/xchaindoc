@@ -5,7 +5,7 @@
     上传合约的代码格式如下所示：
 
     ```
-    xccli tx wasm store <合约文件> rust 2 --label <合约标记> --from <账户名> --gas="50000000" --gas-adjustment="1.2" -y --node <节点地址> --chain-id=xchain
+    xccli tx wasm store <合约文件> rust 2 --label <合约标记> --from <账户名> -y --node <节点地址> --chain-id=xchain
     ```
 
     具体的节点地址上文已经说明，可以通过xccli status进行查询
@@ -26,7 +26,7 @@
 
     上传合约的具体样例：   
     ```
-    xccli tx wasm store patient.wasm rust 2 --label patient_v1 --from jack --gas="50000000" --gas-adjustment="1.2" -y --node tcp://localhost:26657 --chain-id=namechain
+    xccli tx wasm store patient.wasm rust 2 --label patient_v1 --from jack -y --node tcp://localhost:26657 --chain-id=namechain
     ```
     ![上传合约样例](picture/d72b9484800f7a15368246a6cdf8ca2d.png)
 
@@ -47,11 +47,11 @@
 - 合约安装、初始化
 
     ```
-    xccli tx wasm instantiate <合约id> '初始化参数' <合约名字> --from <账户名> --gas="80000000" --gas-adjustment="1.2" -y --node <节点地址> --chain-id=xchain
+    xccli tx wasm instantiate <合约id> '初始化参数' <合约名字> --from <账户名> -y --node <节点地址> --chain-id=xchain
     ```
 
     合约安装、初始化的具体样例：   
     ```
-    xccli tx wasm instantiate 8 '{}' patient --from jack --gas="80000" --gas-adjustment="1.2" -y --node tcp://localhost:26657 --chain-id=namechain
+    xccli tx wasm instantiate 8 '{}' patient --from jack -y --node tcp://localhost:26657 --chain-id=namechain
     ```
     ![合约安装、初始化样例](picture/109b5c572e9245c738e085bf75784b63.png "合约安装、初始化样例")

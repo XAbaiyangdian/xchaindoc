@@ -3,12 +3,12 @@
 - 命令行调用合约事务方法
 
     ```
-    xccli tx wasm execute <合约名> '{"合约方法名":{合约参数}}' --from <账户名> --gas="800000" --gas-adjustment="1.2" -y --node <节点地址> --chain-id=xchain
+    xccli tx wasm execute <合约名> '{"合约方法名":{合约参数}}' --from <账户名> -y --node <节点地址> --chain-id=xchain
     ```
 
     命令行调用合约事务方法的具体样例：   
     ```
-    xccli tx wasm execute patient '{"register_patient":{"patient":{"name":"alice","sex":"male","age":"21","nation":"han","ismarried":true,"occupation":"teacher","regtime":"2020-11-09 12:00:00","id":"110101190012090903","telephonenum":"12345678876","contact":"123456"}}}' --from jack --gas="800000" --gas-adjustment="1.2" -y --node tcp://localhost:26657 --chain-id=namechain
+    xccli tx wasm execute patient '{"register_patient":{"patient":{"name":"alice","sex":"male","age":"21","nation":"han","ismarried":true,"occupation":"teacher","regtime":"2020-11-09 12:00:00","id":"110101190012090903","telephonenum":"12345678876","contact":"123456"}}}' --from jack -y --node tcp://localhost:26657 --chain-id=namechain
     ```   
     ![](picture/4bb7aef0f685f7bd33900b1f6929ccdd.png )
 

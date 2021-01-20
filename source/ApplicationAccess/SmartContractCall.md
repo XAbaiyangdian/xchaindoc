@@ -18,11 +18,11 @@
     xccli query wasm contract-state smart <合约名> '{"查询方法名":{查询参数}}' --node <节点地址> --chain-id=xchain
     ```
 
-    > 命令行调用合约查询方法的具体样例：   
-        ```
-        xccli query wasm contract-state smart patient '{"query_patients":{"precardid":"11010119001209090"}}' --node tcp://localhost:26657 --chain-id=namechain
-        ```
-        ![](../image/44c4d5529f5967328766d232ba5fa72b.png)
+    命令行调用合约查询方法的具体样例：   
+    ```
+    xccli query wasm contract-state smart patient '{"query_patients":{"precardid":"11010119001209090"}}' --node tcp://localhost:26657 --chain-id=namechain
+    ```
+    ![](../image/44c4d5529f5967328766d232ba5fa72b.png)
 
 - 查询交易状态代码如下：
 
@@ -30,7 +30,7 @@
     xccli query tx txhash
     ```
 
-    >样例说明图如下所示：   
+    样例说明图如下所示：   
     ![交易状态查询样例](picture/8dd591e81c93431320f03b105bda5f8a.png "交易状态查询样例")
 
 - SDK调用合约方法见Demo

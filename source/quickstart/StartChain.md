@@ -8,7 +8,12 @@ docker load < xchain-alone.tar
 
 ```
 > docker load < xchain-alone.tar
-bacd3af13903: Loading layer [======================>] 75.27 MB/75.27 MB    9069f84dbbe9: Loading layer [======================>] 15.36 kB/15.36 kB   f6253634dc78: Loading layer [======================>] 3.072 kB/3.072 kB  919ad0064c90: Loading layer [======================>] 88.77 MB/88.77 MB   c600d131639c: Loading layer [======================>]  12.6 MB/12.6 MB     5f70bf18a086: Loading layer [======================>] 1.024 kB/1.024 kB     
+bacd3af13903: Loading layer [======================>] 75.27 MB/75.27 MB    
+9069f84dbbe9: Loading layer [======================>] 15.36 kB/15.36 kB   
+f6253634dc78: Loading layer [======================>] 3.072 kB/3.072 kB  
+919ad0064c90: Loading layer [======================>] 88.77 MB/88.77 MB   
+c600d131639c: Loading layer [======================>] 12.6 MB/12.6 MB     
+5f70bf18a086: Loading layer [======================>] 1.024 kB/1.024 kB     
 Loaded image: xchain-alone:1.0.0
 ```
 

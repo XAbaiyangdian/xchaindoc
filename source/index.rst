@@ -21,10 +21,13 @@ xchain文档
 
    introduction/brief
    introduction/architecture
+   introduction/KeyChar
+   introduction/Organization
+   introduction/AcountAndRole
+   introduction/permission
    introduction/consensus
    introduction/contract
-   introduction/module
-   introduction/member
+   introduction/Ledger
 
 .. toctree::
    :maxdepth: 2

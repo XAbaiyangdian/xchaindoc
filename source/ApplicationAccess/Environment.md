@@ -10,7 +10,7 @@
 
     如上图所示， golang1.14.4版本运行环境已经安装成功
 
-- 安装r ustup。rustup是rust的安装和管理工具，在本项目中rustup用来维护依赖和处理cargo、rustc的版本更新，安装脚本：
+- 安装rustup。rustup是rust的安装和管理工具，在本项目中rustup用来维护依赖和处理cargo、rustc的版本更新，安装脚本：
 
   ```
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh

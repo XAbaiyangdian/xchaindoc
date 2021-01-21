@@ -25,4 +25,8 @@
 
     代码示例见：`x/member/types/org_test.go`
 
-  - 完整的全新表达式举例：`(org1.*, org2.**.h) & (peer, client) || org1  & peer || org2 & client || org2&member || **&client`
+  - 完整的全新表达式举例：
+  
+    ```
+    (org1.*, org2.**.h) & (peer, client) || org1  & peer || org2 & client || org2&member || **&client
+    ```

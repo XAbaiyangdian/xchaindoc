@@ -44,7 +44,7 @@ b8fee4e6a926        xchain-alone:1.0.0   "/bin/sh /opt/xchain/"   Less than a se
 docker exec -it xchain /bin/bash
 ```
 
-查看xchain网络状态，一个简单的单点部署XChain网络场景已随docker启动，该网络包括网络管理组（NetworkOrg）和4个level 1组织（Org），网络管理组有4个网络管理员，每个组织各有1个管理员和1个节点（peer）。配置文件和启动文件已预定义，你无需修改这些配置。：
+查看xchain网络状态，一个简单的单点部署XChain网络场景已随docker启动。配置文件和启动文件已预定义，你无需修改这些配置。
 
 ```
 xccli status

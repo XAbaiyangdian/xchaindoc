@@ -2,13 +2,13 @@
 
 下载安装docker软件：
 
- https://www.docker.com/get-started
+ [https://www.docker.com/get-started](https://www.docker.com/get-started)
 
   ![](pre1.png)
 
 下载xchain的docker镜像：
 
- http://172.16.0.10:7002/resource/docker
+ [https://gitee.com/xabl/xchain](https://gitee.com/xabl/xchain)
 
   ![](pre2.png)
 

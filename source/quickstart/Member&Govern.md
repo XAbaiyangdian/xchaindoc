@@ -255,7 +255,7 @@
 
 - 组织
 
-  查询当前所有组织的信息，可以看到目前的网络中已默认创建了1个网络管理组（level 0级别）NetworkOrg和4个level 1级组织org1-4，以及各组织中的账户（orgAccounts）。
+  查询当前所有组织的信息，可以看到目前的网络中已默认创建了1个网络管理组（NetworkOrg）和4个level 1组织（Org1-4），网络管理组有4个网络管理员，每个组织各有1个管理员和1个节点（peer）。
 
   ```
   xccli query member orgs

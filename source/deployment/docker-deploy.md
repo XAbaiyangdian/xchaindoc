@@ -7,6 +7,7 @@
 下载路径：
 
 [https://gitee.com/xabl/xchain/blob/master/xchain-alone.tar]: (https://gitee.com/xabl/xchain/blob/master/xchain-alone.tar)
+<a href="https://gitee.com/xabl/xchain/blob/master/xchain-alone.tar" target="_blank">https://gitee.com/xabl/xchain/blob/master/xchain-alone.tar</a>
 
 2. 在终端运行
 

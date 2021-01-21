@@ -2,7 +2,7 @@
 
 - 账户
 
-  查看网络中所有账户的信息，可以看到账户地址、所属组织和角色、账户状态。
+  查看网络中所有账户的信息，可以看到账户地址、所属组织和角色、账户状态等。
 
   ```
   xccli query member accounts
@@ -236,7 +236,7 @@
   ]
   ```
 
-  添加账户tom
+  添加本地账户tom，此时该账户还尚未加入网络中
 
   ```
   xccli keys add tom
@@ -349,7 +349,7 @@
   ]
   ```
 
-  使用xccli tx member addOrg命令可以添加新组织org5，组织管理员设为tom。
+  使用xccli tx命令可以添加新组织org5，并将之前创建的本地账户tom设为组织管理员。
 
   ```
   xccli tx member addOrg org5 $(xccli keys show tom -a) --from jack -y

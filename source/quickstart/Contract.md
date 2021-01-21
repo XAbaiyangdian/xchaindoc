@@ -24,7 +24,7 @@
 
   ```
   xccli tx wasm store \<合约文件\> rust 2 --label \<合约标记\> --from
-  \<账户名\> --gas="50000000" --gas-adjustment="1.2" -y --node \<节点地址\>
+  \<账户名\> -y --node \<节点地址\>
   --chain-id=xchain
   ```
 
@@ -48,7 +48,7 @@
 
   ```
   xccli tx wasm store patient.wasm rust 2 --label patient_v1 --from jack
-  --gas="50000000" --gas-adjustment="1.2" -y --node tcp://localhost:26657
+   -y --node tcp://localhost:26657
   --chain-id=xchain
   ```
 
@@ -72,15 +72,14 @@
 
   ```
   xccli tx wasm instantiate \<合约id\> '初始化参数' \<合约名字\> --from
-  \<账户名\> --gas="80000000" --gas-adjustment="1.2" -y --node \<节点地址\>
+  \<账户名\> -y --node \<节点地址\>
   --chain-id=xchain
   ```
 
   样例：
 
   ```
-  xccli tx wasm instantiate 8 '{}' patient --from jack --gas="80000"
-  --gas-adjustment="1.2" -y --node tcp://localhost:26657 --chain-id=namechain
+  xccli tx wasm instantiate 8 '{}' patient --from jack -y --node tcp://localhost:26657 --chain-id=namechain
   ```
 
   ![](contract5.png)
@@ -91,7 +90,7 @@
 
   ```
   xccli tx wasm execute \<合约名\> '{"合约方法名":{合约参数}}' --from
-  \<账户名\> --gas="800000" --gas-adjustment="1.2" -y --node \<节点地址\>
+  \<账户名\> -y --node \<节点地址\>
   --chain-id=xchain
   ```
 
@@ -101,7 +100,7 @@
   xccli tx wasm execute patient
    '{"register_patient":{"patient":{"name":"alice","sex":"male","age":"21","nation":"han","ismarried":true,"occupation":"teacher","regtime":"2020-11-09
   12:00:00","id":"110101190012090903","telephonenum":"12345678876","contact":"123456"}}}'
-  --from jack --gas="800000" --gas-adjustment="1.2" -y --node
+  --from jack -y --node
   tcp://localhost:26657 --chain-id=namechain
   ```
 

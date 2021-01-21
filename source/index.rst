@@ -55,8 +55,8 @@ xchain文档
    :caption: 网络部署:
    :numbered:
 
-   deployment/native
    deployment/docker
+   deployment/multi-node
 
 .. toctree::
    :maxdepth: 2

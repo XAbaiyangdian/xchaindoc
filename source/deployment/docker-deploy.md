@@ -4,9 +4,9 @@
 
 1. 下载文件 xchain-alone.tar
 
-互联网下载路径：https://gitee.com/xabl/xchain/blob/master/xchain-alone.tar
+下载路径：
 
-内网下载路径：http://172.16.0.10:7002/resource/docker/-/raw/master/xchain-alone.tar
+[https://gitee.com/xabl/xchain/blob/master/xchain-alone.tar]: https://gitee.com/xabl/xchain/blob/master/xchain-alone.tar
 
 2. 在终端运行
 
@@ -45,9 +45,9 @@
 
 1. 下载文件 xchain-net.tar
 
-互联网下载路径：https://gitee.com/xabl/xchain/blob/master/xchain-net.tar
+下载路径：
 
-内网下载路径：http://172.16.0.10:7002/resource/docker/-/raw/master/xchain-net.tar
+[https://gitee.com/xabl/xchain/blob/master/xchain-net.tar]: https://gitee.com/xabl/xchain/blob/master/xchain-net.tar
 
 2. 在终端运行
 

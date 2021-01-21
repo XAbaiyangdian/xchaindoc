@@ -90,8 +90,7 @@
   本说明样例：
 
   ```
-  xccli tx wasm execute patient '{"register_patient":{"patient":{"name":"alice","sex":"male","age":"21","nation":"han","ismarried":true,"occupation":"teacher","regtime":"2020-11-09
-  12:00:00","id":"110101190012090903","telephonenum":"12345678876","contact":"123456"}}}' --from jack -y --node tcp://localhost:26657 --chain-id=namechain
+  xccli tx wasm execute patient '{"register_patient":{"patient":{"name":"alice","sex":"male","age":"21","nation":"han","ismarried":true,"occupation":"teacher","regtime":"2020-11-09 12:00:00","id":"110101190012090903","telephonenum":"12345678876","contact":"123456"}}}' --from jack -y --node tcp://localhost:26657 --chain-id=namechain
   ```
 
   上传结果如下所示：

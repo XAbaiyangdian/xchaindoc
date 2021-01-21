@@ -59,7 +59,11 @@
 
 ## 接入环境
 
-- 将xccli文件所在目录加入path环境变量
+
+- xcd、xccli拷贝到linux服务器工作目录（xcd、xccli可从[xccli](https://gitee.com/xabl/xchain)处下载）
+- so拷贝到linux服务器/lib目录
+- 运行/sbin/ldconfig -v 加载依赖库
+- 将xcd、xccli文件所在目录加入path环境变量
 - 通过xccli生成一个组织管理员密钥和地址
 - 命令行输入`xccli keys add <管理员账号名>`，如输入`xccli keys add
 admin`，则生成名为admin的管理员，输入命令后命令行信息如下文所示：

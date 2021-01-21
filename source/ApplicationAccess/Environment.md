@@ -60,8 +60,8 @@
 ## 接入环境
 
 
-- xcd、xccli拷贝到linux服务器工作目录（xcd、xccli可从[xccli](https://gitee.com/xabl/xchain)处下载）
-- so拷贝到linux服务器/lib目录
+- xcd、xccli拷贝到linux服务器工作目录
+- so拷贝到linux服务器/lib目录（so、xcd、xccli可从[xccli](https://gitee.com/xabl/xchain)处下载）
 - 运行/sbin/ldconfig -v 加载依赖库
 - 将xcd、xccli文件所在目录加入path环境变量
 - 通过xccli生成一个组织管理员密钥和地址

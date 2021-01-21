@@ -4,7 +4,7 @@
 
 xcd：节点服务程序； xccli：客户端命令行工具； so：xcd和xccli运行依赖库；
 
-以上程序下载地址：https://gitee.com/xabl/xchain
+以上程序下载地址：<a href="https://gitee.com/xabl/xchain" target="_blank">https://gitee.com/xabl/xchain</a>
 
 
 

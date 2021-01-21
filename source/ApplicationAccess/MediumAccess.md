@@ -4,4 +4,4 @@
 
 1. xccli：[client命令行工具](https://gitee.com/xabl/xchain)
 2. SDK Demo和xchain-java-sdk-1.0-SNAPSHOT.jar：[java SDK jar和Demo](https://gitee.com/xabl/sdk)
-3. [合约Demo](https://gitee.com/xabl/contract-demo)
+3. 智能合约Demo：[智能合约Demo](https://gitee.com/xabl/contract-demo)

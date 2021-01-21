@@ -26,6 +26,12 @@ xcd：节点服务程序； xccli：客户端命令行工具； so：xcd和xccli
 
 6. 执行xcd start启动节点；
 
+   启动节点后，配置文件和数据文件默认在用户目录下，如果需要更改目录，则需加上--home=/opt/data/node01/.xcd，例如：
+
+   ```
+   xcd --home=/opt/data/node01/.xcd start
+   ```
+
 7. 执行xccli status查看节点状态；
 
 

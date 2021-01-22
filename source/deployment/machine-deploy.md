@@ -4,7 +4,7 @@
 
 xcd：节点服务程序； xccli：客户端命令行工具； so：xcd和xccli运行依赖库；
 
-以上程序下载地址：<a href="https://gitee.com/xabl/xchain" target="_blank">https://gitee.com/xabl/xchain</a>
+以上程序下载路径：<a href="https://gitee.com/xabl/xchain" target="_blank">https://gitee.com/xabl/xchain</a></a>
 
 
 
@@ -231,9 +231,43 @@ xcd：节点服务程序； xccli：客户端命令行工具； so：xcd和xccli
    I[2021-01-19|15:38:21.187] Committed state                              module=state height=5 txs=1 appHash=D0ADCCA8656C9C27F49FD9E60A732CC4D502F26D1DE1CB914DD09C5B1F47B1D4
    I[2021-01-19|15:38:21.194] Executed block                               module=state height=6 validTxs=0 invalidTxs=0
    I[2021-01-19|15:38:21.196] Committed state                              module=state height=6 txs=0 appHash=D0ADCCA8656C9C27F49FD9E60A732CC4D502F26D1DE1CB914DD09C5B1F47B1D4
+   I[2021-01-19|15:38:21.202] Executed block                               module=state height=7 validTxs=1 invalidTxs=0
+   I[2021-01-19|15:38:21.204] Committed state                              module=state height=7 txs=1 appHash=A7CC3F313EB3586F75800B1507C7BCF80659AE9D5C71C74C5751B1A47719066E
+   I[2021-01-19|15:38:22.669] Executed block                               module=state height=8 validTxs=0 invalidTxs=0
+   I[2021-01-19|15:38:22.671] Committed state                              module=state height=8 txs=0 appHash=A7CC3F313EB3586F75800B1507C7BCF80659AE9D5C71C74C5751B1A47719066E
    ```
-
-
+   
+   第二个节点成功连上第一个节点，第一个节点之前xcd start启动的界面会继续输出连上的信息，得到第二个节点的id，701a9a275a5b7727b6e70902b087a0e29caa68a2，例如（最后三行）：
+   
+   ```
+   root@32c03341d20c:/opt# xcd start
+   I[2021-01-20|01:38:27.706] starting ABCI with Tendermint                module=main 
+   Query path: custom/acc/account
+   Query path: custom/acc/account
+   I[2021-01-20|01:41:08.170] Executed block                               module=state height=5 validTxs=1 invalidTxs=0
+   I[2021-01-20|01:41:08.177] Committed state                              module=state height=5 txs=1 appHash=D0ADCCA8656C9C27F49FD9E60A732CC4D502F26D1DE1CB914DD09C5B1F47B1D4
+   I[2021-01-20|01:41:13.210] Executed block                               module=state height=6 validTxs=0 invalidTxs=0
+   I[2021-01-20|01:41:13.215] Committed state                              module=state height=6 txs=0 appHash=D0ADCCA8656C9C27F49FD9E60A732CC4D502F26D1DE1CB914DD09C5B1F47B1D4
+   Query path: custom/member/orgs
+   Query path: custom/acc/account
+   Query path: custom/acc/account
+   I[2021-01-20|01:50:06.992] Executed block                               module=state height=7 validTxs=1 invalidTxs=0
+   I[2021-01-20|01:50:06.995] Committed state                              module=state height=7 txs=1 appHash=A7CC3F313EB3586F75800B1507C7BCF80659AE9D5C71C74C5751B1A47719066E
+   I[2021-01-20|01:50:12.012] Executed block                               module=state height=8 validTxs=0 invalidTxs=0
+   I[2021-01-20|01:50:12.017] Committed state                              module=state height=8 txs=0 appHash=A7CC3F313EB3586F75800B1507C7BCF80659AE9D5C71C74C5751B1A47719066E
+   Query path: custom/member/orgs
+   Query path: /p2p/filter/addr/172.17.0.1:59384
+   Query path: /p2p/filter/addr/172.17.0.1:59388
+   Query path: /p2p/filter/id/701a9a275a5b7727b6e70902b087a0e29caa68a2
+   ```
+   
+   其中第二个节点的id，可以在第二个节点的电脑再开一个终端，用以下命令查询验证：
+   
+   ```
+   xcd tendermint show-node-id
+   ```
+   
+   
 
 7. 在第一个节点做交易，jack转账给bob，xccli tx send  < jack address >  < bob address >  55stake --from jack。
 
@@ -285,24 +319,24 @@ xcd：节点服务程序； xccli：客户端命令行工具； so：xcd和xccli
 
    查看第一、第二个节点有没有自动出块。
 
-   第二个节点自动出块输出例子：
+   第一个节点自动出块输出例子：
 
    ```
    Query path: custom/acc/account
    Query path: custom/acc/account
-   I[2021-01-20|01:50:06.992] Executed block                               module=state height=7 validTxs=1 invalidTxs=0
-   I[2021-01-20|01:50:06.995] Committed state                              module=state height=7 txs=1 appHash=A7CC3F313EB3586F75800B1507C7BCF80659AE9D5C71C74C5751B1A47719066E
-   I[2021-01-20|01:50:12.012] Executed block                               module=state height=8 validTxs=0 invalidTxs=0
-   I[2021-01-20|01:50:12.017] Committed state                              module=state height=8 txs=0 appHash=A7CC3F313EB3586F75800B1507C7BCF80659AE9D5C71C74C5751B1A47719066E
+   I[2021-01-20|02:31:37.039] Executed block                               module=state height=9 validTxs=0 invalidTxs=1
+   I[2021-01-20|02:31:37.042] Committed state                              module=state height=9 txs=1 appHash=ABDA51616E6EF12138EEB713A7F0AA5778BC6CF6E608B07A95E49F8688B92DEA
+   I[2021-01-20|02:31:42.092] Executed block                               module=state height=10 validTxs=0 invalidTxs=0
+   I[2021-01-20|02:31:42.106] Committed state                              module=state height=10 txs=0 appHash=ABDA51616E6EF12138EEB713A7F0AA5778BC6CF6E608B07A95E49F8688B92DEA
    ```
 
    第二个节点自动出块输出例子：
 
    ```
-   I[2021-01-19|15:38:21.202] Executed block                               module=state height=7 validTxs=1 invalidTxs=0
-   I[2021-01-19|15:38:21.204] Committed state                              module=state height=7 txs=1 appHash=A7CC3F313EB3586F75800B1507C7BCF80659AE9D5C71C74C5751B1A47719066E
-   I[2021-01-19|15:38:22.669] Executed block                               module=state height=8 validTxs=0 invalidTxs=0
-   I[2021-01-19|15:38:22.671] Committed state                              module=state height=8 txs=0 appHash=A7CC3F313EB3586F75800B1507C7BCF80659AE9D5C71C74C5751B1A47719066E
+   I[2021-01-19|16:05:12.765] Executed block                               module=state height=9 validTxs=0 invalidTxs=1
+   I[2021-01-19|16:05:12.768] Committed state                              module=state height=9 txs=1 appHash=ABDA51616E6EF12138EEB713A7F0AA5778BC6CF6E608B07A95E49F8688B92DEA
+   I[2021-01-19|16:05:17.811] Executed block                               module=state height=10 validTxs=0 invalidTxs=0
+   I[2021-01-19|16:05:17.813] Committed state                              module=state height=10 txs=0 appHash=ABDA51616E6EF12138EEB713A7F0AA5778BC6CF6E608B07A95E49F8688B92DEA
    ```
 
    

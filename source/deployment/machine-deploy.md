@@ -235,7 +235,7 @@ xcd：节点服务程序； xccli：客户端命令行工具； so：xcd和xccli
 
 
 
-7. 在第一个节点做交易，jack转账给bob，xccli tx send  < jack address >  < bob address >  5000000stake --from jack。
+7. 在第一个节点做交易，jack转账给bob，xccli tx send  < jack address >  < bob address >  55stake --from jack。
 
    步骤：
 

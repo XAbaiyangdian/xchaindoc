@@ -211,7 +211,7 @@ xcd：节点服务程序； xccli：客户端命令行工具； so：xcd和xccli
    xcd start
    ```
 
-   第二个节点成功启动输出例子：
+   第二个节点成功启动并且连上第一个节点的输出例子：
 
    ```
    root@b5c8b0e185e0:/opt/data/node01/.xcd/config# xcd start

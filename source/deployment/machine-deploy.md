@@ -372,7 +372,7 @@ xcd：节点服务程序； xccli：客户端命令行工具； so：xcd和xccli
 
    
 
-9. 在第二个节点的执行以下代码，取得第二个节点的validator key
+9. 在第二个节点执行以下代码，取得第二个节点的validator key
 
    ```
    xcd tendermint show-validator

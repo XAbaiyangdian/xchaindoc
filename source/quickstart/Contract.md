@@ -8,7 +8,7 @@
   合约编译：
 
   ```
-  RUSTFLAGS='-C link-arg=-s' cargo wasm
+  RUSTFLAGS='-C link-arg=-s' cargo build --release --target wasm32-unknown-unknown
   ```
 
   根据网络情况稍等一段时间后，合约编译完成结果如下所示:

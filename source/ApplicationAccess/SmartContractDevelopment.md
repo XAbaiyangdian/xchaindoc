@@ -1,7 +1,7 @@
 # 智能合约开发
 
 - 基于合约Demo，进行Rust语言开发，Demo为IDEA的Rust工程
-- 合约编译：`RUSTFLAGS='-C link-arg=-s' cargo wasm`
+- 合约编译：`RUSTFLAGS='-C link-arg=-s' cargo build --release --target wasm32-unknown-unknown`
 
   根据网络情况稍等一段时间后，合约编译完成结果如下所示：
 

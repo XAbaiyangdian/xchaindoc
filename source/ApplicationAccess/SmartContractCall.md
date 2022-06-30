@@ -1,36 +1,39 @@
 # 智能合约调用
 
-- 命令行调用合约事务方法
+## 查询合约
+命令行调用合约查询方法：
+> xccli query wasm contract-state smart <合约名> "{"查询方法名":{查询参数}}"
 
-    ```
-    xccli tx wasm execute <合约名> '{"合约方法名":{合约参数}}' --from <账户名> -y --node <节点地址> --chain-id=xchain
-    ```
 
-    命令行调用合约事务方法的具体样例：   
-    ```
-    xccli tx wasm execute patient '{"register_patient":{"patient":{"name":"alice","sex":"male","age":"21","nation":"han","ismarried":true,"occupation":"teacher","regtime":"2020-11-09 12:00:00","id":"110101190012090903","telephonenum":"12345678876","contact":"123456"}}}' --from jack -y --node tcp://localhost:26657 --chain-id=namechain
-    ```   
-    ![](picture/4bb7aef0f685f7bd33900b1f6929ccdd.png )
+结果示例：
+> xccli query wasm contract-state smart test "{\"find\":{\"key\":\"a\"}}"
+> 
+![8DE567A1275C66E6C632C22195ECF672](https://user-images.githubusercontent.com/105793954/176608104-2b705e7d-fde5-4835-9652-6c85dfd05864.jpg)
 
-- 命令行调用合约查询方法
 
-    ```
-    xccli query wasm contract-state smart <合约名> '{"查询方法名":{查询参数}}' --node <节点地址> --chain-id=xchain
-    ```
+## 升级合约
+命令行调用升级合约方法：
 
-    命令行调用合约查询方法的具体样例：   
-    ```
-    xccli query wasm contract-state smart patient '{"query_patients":{"precardid":"11010119001209090"}}' --node tcp://localhost:26657 --chain-id=namechain
-    ```
-    ![](picture/44c4d5529f5967328766d232ba5fa72b.png)
+> xccli tx wasm migrate <待升级合约名> <升级的合约> 2 "{}" --from <操作者> -y
 
-- 查询交易状态代码如下：
+结果示例：
 
-    ```
-    xccli query tx txhash
-    ```
+>  xccli tx wasm migrate test test.wasm 2 "{}" --from jack -y
 
-    样例说明图如下所示：   
-    ![交易状态查询样例](picture/8dd591e81c93431320f03b105bda5f8a.png "交易状态查询样例")
+![image](https://user-images.githubusercontent.com/105793954/176607186-b4f1ae8e-571b-47f2-95d8-3c2f020ed213.png)
 
-- SDK调用合约方法见Demo
+
+## 合约列表
+命令行查询合约列表方法：
+> xccli q wasm list-contract
+
+结果示例:
+
+![image](https://user-images.githubusercontent.com/105793954/176607355-e07f684f-5aab-4ec6-9e30-98a64b82eaad.png)
+
+## 查询操作情况
+执行完每一步操作之后会生成一个txhash,查询该txhash就可以知道操作执行情况
+> xccli q tx < txhash>
+
+结果示例：  
+![image](https://user-images.githubusercontent.com/105793954/176607441-6426f22f-d54a-4e80-a819-ec54da62f985.png)

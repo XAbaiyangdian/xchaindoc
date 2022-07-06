@@ -1,4 +1,10 @@
 # 智能合约开发
+## 概述
+本项目为go示例合约，实现了对key/value对的增删查改的功能
+## 开发环境
+go版本：不限  
+IDE：goland或Idea
+
 
 - 在拥有智能合约开发环境后，基于gotest合约demo，进行go语言开发。
 
@@ -10,6 +16,7 @@ Demo目录如图
 ## 编写合约
 对合约的编写主要是在example/gotest/src里
 - **state.go**  
+state.go存放合约使用的存储定义和数据结构定义。  
 主要是set存数据和get取数据，对于要存储的数据类型、对应的key都可以自行定义。  
 例如：Dome中定义了item结构体，存储item和取出item方法。  
  ![image](https://user-images.githubusercontent.com/105793954/176583836-adfdd583-3ad8-48b9-9e5d-1f3d05d06e85.png)
@@ -17,6 +24,7 @@ Demo目录如图
  > storage.Get 传入[]byte类型的key, 返回value.  
  > 关于storage的方法还有Range，Remove(删除)， 详情查看std/imports.go
 - **msg.go**
+msg.go存放合约接收消息的定义。 
 
 根据**合约需求**定义不同的结构体类型, 里面必须定义InstantiateMsg, ExecuteMsg。  
 MigrateMsg QueryMsg 每个结构体里的内容也是根据需求自定义，但需要对应后面的执行。  
@@ -27,14 +35,14 @@ MigrateMsg QueryMsg 每个结构体里的内容也是根据需求自定义，但
 
 ![image](https://user-images.githubusercontent.com/105793954/176584251-8090ba9d-eac3-4130-be0f-3fbccf82faf9.png)
 - **contract.go**  
-
-Instantiate 初始化合约  
+contract.go存放合约各方法的实现 
+合约结构体必须包含Instantiate合约方法，用于合约初始化时执行相应逻辑
 ![image](https://user-images.githubusercontent.com/105793954/176584343-0d202d08-fcdc-4355-af8e-70e0c8b0eb27.png)
 
 Migrate 升级合约    
 ![image](https://user-images.githubusercontent.com/105793954/176584556-02269d17-e160-4fdb-ad90-be65c504d7d8.png)
 
-Execute 执行合约  
+合约结构体必须包含Execute合约方法，用于合约执行时处理收到相应消息类型
 ![image](https://user-images.githubusercontent.com/105793954/176584649-d20fe90c-12e6-445b-9930-b09774dc0d90.png)
 
 > Execute函数相当于一个分流器，根据传入的参数去执行不同的函数，每类消息里的case需要跟msg.go里的定义相对应，下面要执行的函数根据业务需求来写，需要返回的结构体对的response。
@@ -57,13 +65,25 @@ Demo中的executeCreatea函数示例：
 
 ![image](https://user-images.githubusercontent.com/105793954/176587093-9885546d-a096-426d-96bd-0941743b8410.png)
 
-Query查询  
+
+合约结构体必须包含Query合约方法，用于合约查询时处理收到相应消息类型。
 ![image](https://user-images.githubusercontent.com/105793954/176585117-f1aad7f6-43db-4a7f-b121-ad2b25e27691.png)
 
 
 > Query函数与Execute类似，根据传入的参数去执行不同的函数，每类消息里的case需要跟msg.go里的定义相对应，下面要执行的函数根据业务需求来写，需要返回的结构体对的response。
 
-参数的释义：
+合约本质上是对链存储的操作。  
+![image](https://user-images.githubusercontent.com/105793954/177489864-33915487-6ab7-4aa5-8177-f06a30827b14.png)
+
+ 合约操作原语包含对Storage的增删查改，Storage的定义如上所示。  
+   常用接口如下：  
+   1.func (s ExternalStorage) Get(key []byte) (value []byte) {}    ：数据查询接口  
+   2.func (s ExternalStorage) Range(start, end []byte, order Order) (iter Iterator) {} ：范围查询接口
+   3.func (s ExternalStorage) Set(key, value []byte) {} ： 数据存储接口  
+   4.func (s ExternalStorage) Remove(key []byte) {}  ：数据删除接口 
+   
+**合约与链的交互**  
+获取链相关信息
 
 Env：定义了此合约运行所在的区块链环境的状态，必须只包含受信任的数据 - Tx 本身中没有尚未验证的数据。Env在传递到wasm合约之前由json转换为byte切片。
 >  包含：Block （区块信息，含有高度、时间、链ID）  
@@ -85,6 +105,48 @@ Response: 当instantiate/execute/migrate成功时的返回值。
 > Data  
 > Attributes（日志事件的属性）  
 > Events（事件）  
+
+其中messages用于跨模块与跨合约操作，Attributes用于写日志，data用于返回值供链使用  
+   示例如下：
+   跨合约调用
+   
+   
+```
+func (r Response) AddWasmMsg(contractName string, msg []byte) Response {
+	m := CosmosMsg{
+		Wasm: &WasmMsg{
+			Execute: &ExecuteMsg{
+				ContractAddr: contractName,
+				Msg:          msg,
+			},
+		},
+	}
+	sm := NewSubMsg(m)
+	r.Messages = append(r.Messages, sm)
+	return r
+}
+```
+
+ 
+ 将合约的EventAttribute打印到Attributes
+ ```
+func (r Response) AddAttribute(key string, value string) Response {
+	m := EventAttribute{
+		key,
+		value,
+	}
+	r.Attributes = append(r.Attributes, m)
+	return r
+}
+```
+ 将b返回给链，链可以获取到b进行其他操作
+    
+   ```
+func (r Response) SetData(b []byte) Response {
+	r.Data = b
+	return r
+}
+```
 
 Deps：传递给contract的可变入口点的依赖。  
 > 包含：Storage（提供对数据持久化层的读写访问）  

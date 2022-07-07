@@ -60,7 +60,7 @@
     xccli query wasm contract-state smart student "$QUERY"
     ```
 
-# 查询交易状态
+## 查询交易状态
 
 - 查询交易状态代码如下：
 

@@ -1,6 +1,6 @@
 # 智能合约开发
 
-# Rust合约
+## Rust合约
 
 ## 概述
 
@@ -359,7 +359,7 @@ xccli tx wasm migrate 合约名 合约名称.wasm 2 "{}" --from 用户 --gas="80
 
 
 
-# Go合约
+## Go合约
 
 ## 概述
 

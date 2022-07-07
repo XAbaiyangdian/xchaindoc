@@ -25,7 +25,7 @@ contract.rs存放合约各方法的实现。msg.rs存放合约接收消息的定
 
 #### 在msg.rs中必须定义合约接收的消息类型
 
-``` go
+``` rust
 pub struct InitMsg {} // 合约实例化时调用
 pub enum HandleMsg { // 合约执行时可调用的方法
     Create { key: String, value: String },
@@ -42,19 +42,19 @@ pub struct MigrateMsg {} // 合约升级时调用
 
 引入存储的定义
 
-```
+``` rust
 pub static STUDENT_KEY: &[u8] = b"student";
 ```
 
-不同存储有不同的Key，实质上是通过前缀区分不同类型的存储。
+不同数据类型的存储是通过key的前缀区分的
 
-```
+``` rust
 pub static ITEM_KEY: &[u8] = b"item";
 ```
 
 读写存储的定义：
 
-```
+``` rust
 pub fn student_store<S: Storage>(storage: &mut S)
     -> Bucket<S, Student> {
     bucket(STUDENT_KEY, storage)
@@ -68,7 +68,7 @@ pub fn student_store_read<S: Storage>(storage: &S)
 
 在contract.rs中可以通过如下方式调用：
 
-```
+``` rust
 let student_option = student_store_read(&deps.storage).may_load(stu.id.as_bytes())? ;//查询
 
 
@@ -78,7 +78,7 @@ student_store(&mut deps.storage)
 
 引入自定义结构体的定义
 
-```
+``` rust
 pub struct Student {
 	pub id: String,
 	pub name: String,
@@ -89,9 +89,9 @@ pub struct Student {
 
 #### 在contract.rs中写合约各消息类型的实现方法
 
-合约结构体必须包含init合约方法，用于合约初始化时执行相应逻辑
+合约中必须包含init合约方法，用于合约初始化时执行相应逻辑
 
-``` go
+``` rust
 pub fn init<S: Storage, A: Api, Q: Querier>(
     deps: &mut Extern<S, A, Q>,
     env: Env,
@@ -101,9 +101,9 @@ pub fn init<S: Storage, A: Api, Q: Querier>(
 }
 ```
 
-合约结构体必须包含handle合约方法，用于合约执行时处理收到相应消息类型
+合约中必须包含handle合约方法，用于合约执行时处理收到相应消息类型
 
-``` go
+``` rust
 pub fn handle<S: Storage, A: Api, Q: Querier>(
     deps: &mut Extern<S, A, Q>,
     env: Env,
@@ -120,9 +120,9 @@ pub fn handle<S: Storage, A: Api, Q: Querier>(
 }
 ```
 
-合约结构体必须包含query合约方法，用于合约查询时处理收到相应消息类型
+合约中必须包含query合约方法，用于合约查询时处理收到相应消息类型
 
-``` go
+``` rust
 pub fn query<S: Storage, A: Api, Q: Querier>(
     deps: &Extern<S, A, Q>,
     msg: QueryMsg,
@@ -151,7 +151,7 @@ pub fn query<S: Storage, A: Api, Q: Querier>(
 
    > 使用方法示例具体如下：
 
-   ``` go
+   ``` rust
    pub fn create<S: Storage, A: Api, Q: Querier>(
        deps: &mut Extern<S, A, Q>,
        _env: Env,
@@ -175,7 +175,7 @@ pub fn query<S: Storage, A: Api, Q: Querier>(
 
    合约实现方法中包含参数Env，其结构如下所示
 
-   ```
+   ``` rust
    pub struct Env {
        pub block: BlockInfo,
        pub message: MessageInfo,
@@ -183,7 +183,7 @@ pub fn query<S: Storage, A: Api, Q: Querier>(
    }
    ```
 
-   ```
+   ``` rust
    pub struct BlockInfo {
        pub height: u64,
        pub time: u64,
@@ -191,14 +191,14 @@ pub fn query<S: Storage, A: Api, Q: Querier>(
    }
    ```
 
-   ```
+   ``` rust
    pub struct MessageInfo {
        pub sender: HumanAddr,
        pub sent_funds: Vec<Coin>,
    }
    ```
 
-   ```
+   ``` rust
    pub struct ContractInfo {
        pub address: HumanAddr,
    }
@@ -206,13 +206,13 @@ pub fn query<S: Storage, A: Api, Q: Querier>(
 
    如在合约方法中获取合约调用者地址可以如下操作
 
-   ```
+   ``` rust
    let sender = env.message.sender.to_string();
    ```
 
    合约方法返回消息类型定义如下
 
-   ```
+   ``` rust
    pub struct HandleResponse<T = Empty>
    where
        T: Clone + fmt::Debug + PartialEq + JsonSchema,
@@ -231,7 +231,7 @@ pub fn query<S: Storage, A: Api, Q: Querier>(
 
    跨合约调用
 
-   ```Ok(HandleResponse{
+   ``` rust
    Ok(HandleResponse {      
        messages: vec![CosmosMsg::Wasm(WasmMsg::Execute {
            contract_name: contract_name,
@@ -245,7 +245,7 @@ pub fn query<S: Storage, A: Api, Q: Querier>(
 
    将合约方法中的id变量打印到log
 
-   ```
+   ``` rust
    Ok(HandleResponse {
        messages: vec![],
        log: vec![log("id", &id)],
@@ -255,7 +255,7 @@ pub fn query<S: Storage, A: Api, Q: Querier>(
 
    将result返回给链，链可以获取到result进行其他操作
 
-   ```
+   ``` rust
    Ok(HandleResponse {
        messages: vec![],
        log: vec![],

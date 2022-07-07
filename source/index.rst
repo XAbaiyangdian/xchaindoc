@@ -36,6 +36,7 @@ xchain文档
 
    quickstart/Prerequisites
    quickstart/StartChain
+   quickstart/keystore
    quickstart/Member&Govern
    quickstart/Contract
    

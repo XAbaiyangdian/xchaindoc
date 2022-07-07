@@ -6,7 +6,7 @@
 
 - 按照官方安装Go环境，本教程推荐使用1.14.4版本。安装好后，在命令行输入`go version`验证版本:
 
-    ![Go语言版本验证](picture/bf865cbd4895e0ba892c6bb1d833144e.png "Go语言版本验证")
+    ![Go语言版本验证](picture/environment1.png "Go语言版本验证")
 
     如上图所示， golang1.14.4版本运行环境已经安装成功
 
@@ -25,7 +25,7 @@
 
 - 安装后，通过`cargo version`命令获取cargo版本，如下图：
 
-    ![cargo版本验证](picture/148c3f306f4f54841b889b5f00e5833b.png "cargo版本验证")
+    ![cargo版本验证](picture/environment2.png "cargo版本验证")
 
 - 运行版本低于1.44.1，用下面命令更新：
 
@@ -33,7 +33,7 @@
     rust update stable
     ```
 
-    ![更新rustup](picture/814a48a1a8d69d7929435ba6ec5559c0.png "rustup")
+    ![更新rustup](picture/environment3.png "rustup")
 
 - rust安装成功后，通过下面命令，确认安装了wasm32 target：
 
@@ -41,12 +41,12 @@
     rustup target list --installed
     ```
 
-    ![确认安装wasm32 target](picture/18c5e4d59b3e55359a382ca4ae863b0f.png "确认安装wasm32 target")
+    ![确认安装wasm32 target](picture/environment4.png "确认安装wasm32 target")
 
 - 如果显示并没有安装wasm 32，执行以下命令进行安装：
 
     ```
-    rustup target add wasm32-unknow-unknow
+    rustup target add wasm32-unknown-unknown
     ```
 
 - 再次执行`rustup target list –installed`查看是否安装成功
@@ -56,6 +56,12 @@
     2. 安装开发智能合约需要的两个插件Rust和Toml。安装方式：`Perferences.. ->Plugins` 在Marketplact中直接搜索Rust和Toml并安装即可
 
 - 合约开发参考Demo完成
+
+## Go智能合约开发环境
+
+- Go版本：1.14+
+  
+- IDE：GoLand
 
 ## 接入环境
 
@@ -85,6 +91,6 @@ admin`，则生成名为admin的管理员，输入命令后命令行信息如下
 
     在命令行中输入`xccli status`，获取 *网络名称*、*channel*、*rpc_address*等信息。
 
-    ![信息](picture/081424cfee8e9e964cfe44c936163e0e.png "")
+    ![信息](picture/environment5.png "")
 
 - 把以上信息发送至网络管理员

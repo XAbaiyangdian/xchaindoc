@@ -1,13 +1,12 @@
-# 智能合约部署
+# 智能合约部署和升级
 
-- 合约上传
+- 合约部署
 
-    上传合约的代码格式如下所示：
-
+    部署合约的代码格式如下所示：
+  
     ```
-    xccli tx wasm store <合约文件> rust 2 --label <合约标记> --from <账户名> -y --node <节点地址> --chain-id=xchain
+    xccli tx wasm instantiate [合约文件] [合约语言] [policy] '初始化参数' [合约名字] --execute-perm [contract execute permission] --from [用户名字] --gas="80000000" -y --node [节点地址] --chain-id=xachain
     ```
-
     具体的节点地址上文已经说明，可以通过xccli status进行查询
 
     查看本地用户名和公钥命令如下所示：
@@ -16,42 +15,46 @@
     xccli keys list 
     ```
 
-    查看chian-id的代码如下所示：
-    
+    查看chain-id的代码如下所示：
+
     ```
     xccli config
     ```
 
-    ![配置信息](picture/4280cb852d6ef8e98473ae961dff0c83.png "配置信息")
+    ![配置信息](picture/deploy1.png "配置信息")
 
-    上传合约的具体样例：   
+    policy:
+  
+    1/ACCEPT 2/DROP，合约调用权限的白名单或黑名单模式。
+    组织表达式支持精确匹配和模糊匹配，精确匹配形如org1.dep1.group1，模糊匹配支持*、**通配符，*代表该层级的任意组织名，**匹配任意深度的组织名。**匹配任意Level组织。
+    
+    示例:
     ```
-    xccli tx wasm store patient.wasm rust 2 --label patient_v1 --from jack -y --node tcp://localhost:26657 --chain-id=namechain
+    xccli tx wasm intantiate crud.wasm rust 1 '{}' crud --execute-perm "org1&member" --from jack --gas="80000000" -y
     ```
-    ![上传合约样例](picture/d72b9484800f7a15368246a6cdf8ca2d.png)
+    组织org1下的所有成员均可调用。
+    ```
+    xccli tx wasm intantiate crud.wasm golang 2 '{}' crud --from jack --gas="80000000" -y
+    ```
+    
+    所有用户均可调用。
 
-- 合约id获取
-
-    合约上传成功后，通过下面命令获取到刚上传合约的id：
-
+    合约部署的具体样例：   
     ```
-    xccli query wasm list-code --node <节点地址>
+    xccli tx wasm instantiate crud.wasm rust 2 '{}' crud --from jack --gas 80000000 -y
     ```
+    ![合约安装、初始化样例](picture/deploy2.png "合约安装、初始化样例")
+    
 
-    合约id获取的具体样例：   
-    ```
-    xccli query wasm list-code --node tcp://localhost:26657
-    ```
-    ![合约id获取样例](picture/5c3189e54f3a7a7b2e70676e1ce82fac.png)
+- 合约升级
 
-- 合约安装、初始化
+    升级合约的代码格式如下所示：
 
     ```
-    xccli tx wasm instantiate <合约id> '初始化参数' <合约名字> --from <账户名> -y --node <节点地址> --chain-id=xchain
+    xccli tx wasm migrate [合约名字] [合约文件] [policy] '升级参数' --execute-perm [contract execute permission] --from [用户名字] --gas="80000000" -y --node [节点地址] --chain-id=xachain
     ```
 
-    合约安装、初始化的具体样例：   
+    示例:
     ```
-    xccli tx wasm instantiate 8 '{}' patient --from jack -y --node tcp://localhost:26657 --chain-id=namechain
+    xccli tx wasm migrate crud crud1.wasm 2 '{}' --from jack --gas="80000000" -y
     ```
-    ![合约安装、初始化样例](picture/109b5c572e9245c738e085bf75784b63.png "合约安装、初始化样例")

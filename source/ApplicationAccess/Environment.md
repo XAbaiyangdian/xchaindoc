@@ -39,7 +39,7 @@
     rustup target list --installed
     ```
 
-    ![确认安装wasm32 target](picture/18c5e4d59b3e55359a382ca4ae863b0f.png "确认安装wasm32 target")
+    ![确认安装wasm32 target](picture/environment3.png "确认安装wasm32 target")
 
 - 如果显示并没有安装wasm 32，执行以下命令进行安装：
 
@@ -83,6 +83,6 @@ admin`，则生成名为admin的管理员，输入命令后命令行信息如下
 
     在命令行中输入`xccli status`，获取 *网络名称*、*channel*、*rpc_address*等信息。
 
-    ![信息](picture/081424cfee8e9e964cfe44c936163e0e.png "")
+    ![信息](picture/environment4.png "")
 
 - 把以上信息发送至网络管理员

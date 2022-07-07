@@ -2,16 +2,16 @@
 
 ## Rust合约
 
-## 概述
+### 概述
 
 本项目为Rust示例合约，实现了对key/value对的增删查改的功能。
 
-## 开发环境
+### 开发环境
 
 Rust版本：不限
 IDE：Clion或Idea
 
-## 合约项目目录说明
+### 合约项目目录说明
 
 src目录：存放合约代码。其中lib.rs为合约总入口。需要编写的文件为contract.rs、msg.rs、state.rs。
 
@@ -19,7 +19,7 @@ contract.rs存放合约各方法的实现。msg.rs存放合约接收消息的定
 
 在Cargo.toml中添加项目要导入的依赖。
 
-## 合约主体
+### 合约主体
 
 智能合约模块支持灵活定义合约方法并对外暴露，以提供区块链模块执行，具体步骤如下：
 
@@ -265,15 +265,15 @@ pub fn query<S: Storage, A: Api, Q: Querier>(
 
 
 
-## 官方库支持
+### 官方库支持
 
 智能合约由Rust官方编译支持，支持除浮点数、随机数、时间外的大部分Rust官方库与特性
 
-## 第三方库支持
+### 第三方库支持
 
 支持如schemars、serde、snafu、p256、hex、pem、x509等
 
-## 编译
+### 编译
 
 基于合约Demo，进行Rust语言开发，Demo为IDEA的Rust工程
 
@@ -295,7 +295,7 @@ cargo build --release --target wasm32-unknown-unknown
 
 编译完的wasm文件在target/wasm32-unknown-unknown/release/crud.wasm路径下
 
-## 合约部署
+### 合约部署
 
 * 命令行部署
 
@@ -304,12 +304,12 @@ cargo build --release --target wasm32-unknown-unknown
 xccli tx wasm instantiate -h
 
 举例
-xccli tx wasm instantiate 合约名称.wasm rust 2 "{}" 合约名 --from 用户  --gas="80000000" --gas-adjustment="1.2" -y
+xccli tx wasm instantiate crud.wasm rust 2 "{}" crud --from jack --gas="80000000" --gas-adjustment="1.2" -y
 ```
 
 * Java-SDK：见SDK示例org/xbl/xchain/sdk/example中，RustContract相关测试。
 
-## 合约调用
+### 合约调用
 
 * 命令行
 
@@ -318,14 +318,15 @@ xccli tx wasm instantiate 合约名称.wasm rust 2 "{}" 合约名 --from 用户 
 xccli tx wasm execute -h
 
 举例：
-xccli tx wasm execute 合约名 参数 --from 用户 --gas="80000000" -y
+PUT='{"create":{"key":"key1","value":"value1"}}'
+xccli tx wasm execute crud "$PUT" --from jack --gas="80000000" -y
 ```
 
 * Java-SDK：见SDK示例org/xbl/xchain/sdk/example中，RustContract相关测试。
 
 > 跨合约调用：本项目暂时未用到，后面补充
 
-## 合约查询
+### 合约查询
 
 * 命令行
 
@@ -334,10 +335,11 @@ xccli tx wasm execute 合约名 参数 --from 用户 --gas="80000000" -y
 xccli query wasm -h
 
 举例
-xccli query wasm contract-state  smart  合约名  参数
+QUERY='{"find":{"key":"key1"}}'
+xccli query wasm contract-state smart crud "$QUERY"
 ```
 
-## 合约升级
+### 合约升级
 
 * 命令行
 
@@ -346,10 +348,10 @@ xccli query wasm contract-state  smart  合约名  参数
 xccli tx wasm migrate -h
  
 举例:  
-xccli tx wasm migrate 合约名 合约名称.wasm 2 "{}" --from 用户 --gas="80000000" -y
+xccli tx wasm migrate crud crud1.wasm 2 "{}" --from jack --gas="80000000" --gas-adjustment="1.2" -y
 ```
 
-## 查看交易状态
+### 查看交易状态
 
 `xccli query tx txhash`
 
@@ -361,16 +363,16 @@ xccli tx wasm migrate 合约名 合约名称.wasm 2 "{}" --from 用户 --gas="80
 
 ## Go合约
 
-## 概述
+### 概述
 
 本项目针对wasm的解析和处理，定义了一套基于Go的合约编写、编译、部署与执行的标准规范，实现了通用、便捷、灵活的智能合约开发流程
 
-## 开发环境
+### 开发环境
 
 Go版本：1.14+
 IDE：GoLand
 
-## 合约项目目录说明
+### 合约项目目录说明
 
 > contract-sdk包：其中包含合约依赖contract-sdk/go/code与contract-sdk/go/driver包
 
@@ -383,7 +385,7 @@ IDE：GoLand
 > 合约主文件：main包，例如student项目中的student.go
 
 
-## 合约主体
+### 合约主体
 
 智能合约模块支持灵活定义合约方法并对外暴露，以提供区块链模块执行，具体步骤如下：
 
@@ -445,31 +447,31 @@ func (c *Chaincode) XXXX(ctx code.Context, args []string) code.Response {
 >> 14. <font color=#795ca3>Logln</font>: 日志打印接口 <br />
 >> 15. <font color=#795ca3>JsonIterator</font>: 复杂查询支持，在配置Postgresql可使用
 
-## 官方库支持
+### 官方库支持
 
 智能合约由Go官方编译支持，支持除协程、time、rand、syscall、os外的大部分Go官方库与特性
 
-## 第三方库支持
+### 第三方库支持
 
 支持基于Go官方库开发的大多数第三方库，如有常用功能无法支持可在后续作为独立的功能接口进行扩展
 
-## 编译
+### 编译
 
-golang 原生支持 wasm 编译，以test.go为例
+golang 原生支持 wasm 编译，以student.go为例
 
 ```sh
-GOOS=js GOARCH=wasm go build -o test.wasm test.go ## linux
+GOOS=js GOARCH=wasm go build -o student.wasm student.go ## linux
 ```
 
-## Windows支持
+### Windows支持
 
 ```
 go env -w GOOS=js
 go env -w GOARCH=wasm
-go build -o test.wasm test.go
+go build -o student.wasm student.go
 ```
 
-## 合约部署
+### 合约部署
 
 * 命令行部署
 
@@ -478,12 +480,12 @@ go build -o test.wasm test.go
 xccli tx wasm instantiate -h
 
 举例
-xccli tx wasm instantiate 合约名称.wasm golang 2 "{}" 合约名 --from 用户  --gas="80000000" --gas-adjustment="1.2" -y
+xccli tx wasm instantiate student.wasm golang 2 "{}" student --from jack --gas="80000000" --gas-adjustment="1.2" -y
 ```
 
 * Java-SDK：见SDK示例org/xbl/xchain/sdk/example中，GoContract相关测试。
 
-## 合约调用
+### 合约调用
 
 * 命令行
 
@@ -492,15 +494,15 @@ xccli tx wasm instantiate 合约名称.wasm golang 2 "{}" 合约名 --from 用�
 xccli tx wasm execute -h
 
 举例：
-APPROVE='{"method":"方法名称","value":["key","value"]}'
-xccli tx wasm execute 合约名 "$APPROVE" --from 用户 --gas="80000000" --gas-adjustment="1.2" -y
+PUT='{"method":"PutStudent","value":["{\"id\":\"1\",\"name\":\"lzh\",\"age\":20,\"score\":80}"]}'
+xccli tx wasm execute student "$PUT" --from jack --gas="80000000" -y
 ```
 
 * Java-SDK：见SDK示例org/xbl/xchain/sdk/example中，GoContract相关测试。
 
 > 跨合约调用：本项目暂时未用到，后面补充
 
-## 合约查询
+### 合约查询
 
 * 命令行
 
@@ -509,13 +511,13 @@ xccli tx wasm execute 合约名 "$APPROVE" --from 用户 --gas="80000000" --gas-
 xccli query wasm -h
 
 举例
-QUERY='{"method":"方法名","value":["lzh"]}' //方法中仅有GetObject原语操作的方法
-xccli query wasm contract-state  smart  合约名  "$QUERY"
+QUERY='{"method":"GetStudent","value":["1"]}' //method中仅有GetObject原语操作
+xccli query wasm contract-state smart student "$QUERY"
 ```
 
 * Java-SDK：见SDK示例org/xbl/xchain/sdk/example中，GoContract相关测试。
 
-## 合约升级
+### 合约升级
 
 * 命令行
 
@@ -524,10 +526,10 @@ xccli query wasm contract-state  smart  合约名  "$QUERY"
 xccli tx wasm migrate -h
  
 举例:  
-xccli tx wasm migrate 合约名 合约名称.wasm 2 "{}" --from 用户 --gas="80000000" --gas-adjustment="1.2" -y
+xccli tx wasm migrate student student1.wasm 2 "{}" --from jack --gas="80000000" --gas-adjustment="1.2" -y
 ```
 
-## 查看交易状态
+### 查看交易状态
 
 `xccli query tx txhash`
 

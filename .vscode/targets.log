@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jul  7 15:41:00 2022
+# Make data base, printed on Thu Jul  7 17:42:33 2022
 
 # Variables
 
@@ -113,7 +113,7 @@ XDG_SESSION_DESKTOP = pantheon
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2245
+GIO_LAUNCHED_DESKTOP_FILE_PID = 11595
 # automatic
 %F = $(notdir $%)
 # environment
@@ -167,7 +167,7 @@ SHLVL = 0
 # environment
 JAVA_HOME = /usr/lib/jvm/jdk1.8.0_333
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-0bb8beef-0070-488a-acfc-1b5a239f0948.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-dc4ff986-b5a4-4c67-8790-1bf1ef867c50.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -247,7 +247,7 @@ LANG = C
 # makefile (from 'Makefile', line 8)
 SOURCEDIR = source
 # environment
-VSCODE_PID = 2245
+VSCODE_PID = 11595
 # variable set hash-table stats:
 # Load=119/1024=12%, Rehash=0, Collisions=11/154=7%
 
@@ -257,9 +257,9 @@ VSCODE_PID = 2245
 
 # Directories
 
-# . (device 64768, inode 1053582): 9 files, no impossibilities.
+# . (device 64768, inode 1053582): 10 files, no impossibilities.
 
-# 9 files, no impossibilities in 1 directories.
+# 10 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -277,8 +277,8 @@ all: Makefile
 #  Implicit/static pattern stem: 'all'
 #  File does not exist.
 #  File has been updated.
- 
 #  Needs to be updated (-q is set).
+ 
 # automatic
 # @ := all
 # automatic
@@ -334,12 +334,13 @@ help:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 17 / storage = 133 B / avg = 7 B
-# current buf: size = 8162 B / used = 133 B / count = 17 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 18 / storage = 139 B / avg = 7 B
+# current buf: size = 8162 B / used = 139 B / count = 18 / avg = 7 B
 
-# strcache performance: lookups = 29 / hit rate = 41%
+ 
+# strcache performance: lookups = 30 / hit rate = 40%
 # hash-table stats:
-# Load=17/8192=0%, Rehash=0, Collisions=1/29=3%
-# Finished Make data base on Thu Jul  7 15:41:00 2022
+# Load=18/8192=0%, Rehash=0, Collisions=1/30=3%
+# Finished Make data base on Thu Jul  7 17:42:33 2022
 
  

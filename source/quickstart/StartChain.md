@@ -1,5 +1,6 @@
 # 启动网络
 
+## docker启动模式
 加载xchain镜像：
 
 ```shell script
@@ -163,3 +164,38 @@ I[2022-07-04|08:09:07.135] Committed state                              module=s
 ```
 
 拥有两个节点的区块链网络建设完成，后续节点加入方式雷同。
+
+## 独立启动模式
+### 环境准备
+    1. cp ./bin/* /usr/bin
+
+    2. cp ./so/libwasmvm.x86_64.so /lib & /sbin/ldconfig -v
+### 启动创世节点
+默认客户端数据目录为 `$HOME/.xccli`
+默认节点数据目录为 `$HOME/.xcd`
+
+    1. sh ./sh/init_genesis.sh
+    
+    2. xcd start --rpc.laddr="tcp://0.0.0.0:26657"
+ ### 启动节点加入已有区块链网络
+   注: 如果节点与创世节点在同一机器需要修改节点和客户端数据目录,修改脚本中的前两行xcclihome、xcdhome。 
+   
+>     1. sh ./sh/init_follow.sh
+    
+ 将创世节点的创世配置拷贝到该节点目录
+>    2. copy `$Genesis_HOME`/.xcd/config/genesis.json -> `$HOME`/.xcd/config
+
+ 3. 将该节点地址加入区块链网络  
+      3.1 获取节点地址  
+>        xcd tendermint show-node-address
+
+   3.2 创世节点添加账户并赋予peer角色  
+>        xccli tx member addAccount ${node-address} org1 peer --from org1Admin -y   
+
+   4.获取创世节点的nodeid  
+>      xcd tendermint show-node-id 
+
+   5.启动节点 
+>    xcd start --rpc.laddr="tcp://0.0.0.0:26647" --p2p.laddr="tcp://0.0.0.0:26646" --p2p.persistent_peers=`${创世节点node-id}`@127.0.0.1:26656 
+
+

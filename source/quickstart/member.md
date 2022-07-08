@@ -5,6 +5,7 @@
 - 网络管理组：
 
   网络管理组在区块链初始启动时创建并拥有最少一个网络管理员，网络管理员参与用户最上层组织、网络管理员、系统参数、提案、验证节点等的管理。
+
 - 查看网络管理组
 ```shell script
 > xccli query member org NetworkOrg
@@ -23,22 +24,56 @@
 "status": "1",
 "preRevokeStatus": "0"
 }
-```
-- 查看网络管理员 
+``` 
+- 网络管理员:
+  
+  网络管理员可以是一个属于网络管理组的网络管理员或者最上层组织的组织管理员，除此之外的用户组织其他成员不可设置为网络管理员，在最上层组织的组织管理员被替换时，旧的组织管理员的网络管理员角色也会被撤销。
+  网络管理员的加入、冻结、撤销操作需要其他网络管理员发起提案并进行投票，当投票数超过生效阈值之后提案才会生效。
+  
+- 添加网络管理员
 ```shell script
-> xccli query member account xchain152pks72p3awfvpthfsw2ejl25m05hhgm9khgdg
+创建本地用户
+> xccli keys add jimmy
 {
-"address": "xchain152pks72p3awfvpthfsw2ejl25m05hhgm9khgdg",
-"orgId": "NetworkOrg",
-"accountRoles": [
-  {
-    "roleId": "networkAdmin",
-    "status": "1"
-  }
-],
-"status": "1",
-"preRevokeStatus": "0",
-"power": "100"
+  "name": "jimmy",
+  "type": "local",
+  "address": "xchain10w9n88qwz2vnguxhv0qv7unzz8lev8rc680aze",
+  "pubkey": "xchainpub1ulx45dfpqdecrkv47grrfzm50uhmfvetp4t074aea5a5ejyw83ghhg0s66s37dy0ce2",
+  "mnemonic": "nuclear panel tiger genius manual cupboard dinosaur shed sister zero royal collect raw praise offer cry foster misery fox ordinary tomorrow remain cargo spirit"
+}
+
+发起提案
+> xccli tx member addNwAdmin $(xccli keys show jimmy -a) 100 --effective-time $(($(date +%s) + 120))  --vote-end-time $(($(date +%s) + 120)) --from jack -y
+{
+  "height": "0",
+  "txhash": "307EDA8942A43566C85092482C6F2A03EADB19DB05644CC91531672FE843E94E"
+}
+
+找到提案id
+> xccli query tx 307EDA8942A43566C85092482C6F2A03EADB19DB05644CC91531672FE843E94E | jq .logs[0].events[1].attributes[3].value
+member_xchain152pks72p3awfvpthfsw2ejl25m05hhgm9khgdg_1657271828
+
+对提案投票
+> xccli tx gov vote member_xchain152pks72p3awfvpthfsw2ejl25m05hhgm9khgdg_1657271828 0 --from jack -y
+{
+  "height": "0",
+  "txhash": "FCCEC11FD5B075CFBC7E3F474EE53E1D321A688500A8CBA36F4180F1BA149888"
+}
+
+查看账号
+> xccli query member account $(xccli keys show jimmy -a)
+{
+  "address": "xchain10w9n88qwz2vnguxhv0qv7unzz8lev8rc680aze",
+  "orgId": "NetworkOrg",
+  "accountRoles": [
+    {
+      "roleId": "networkAdmin",
+      "status": "1"
+    }
+  ],
+  "status": "1",
+  "preRevokeStatus": "0",
+  "power": "100"
 }
 ```
 
@@ -84,9 +119,66 @@
   }
 ]
 ```
+
+- 创建组织org2
+```shell script
+创建本地用户 org2Admin
+> xccli keys add org2Admin
+{
+  "name": "org2Admin",
+  "type": "local",
+  "address": "xchain1fy8lrz9xdvfcqtt4p9kywx5hhlha0sy0g2h5v6",
+  "pubkey": "xchainpub1ulx45dfpqtkfd24huewzhnp7trd42z05xjsv56paw2p57e009rrx0ggf36kaspahwsp",
+  "mnemonic": "impact food mandate nest nuclear screen dress guitar pact legal burden reopen pact humble soccer addict cross evil cover decade govern because burden hedgehog"
+}
+
+发起提案
+> xccli tx member addOrg org2 $(xccli keys show org2Admin -a) --effective-time $(($(date +%s) + 120))  --vote-end-time $(($(date +%s) + 120)) --from jack -y
+{
+  "height": "0",
+  "txhash": "5189AA890A6B40FC05D5E0B0849332145FF460A712DAFE8DB1D1760073A63342"
+}
+
+找到提案id
+> xccli query tx 5189AA890A6B40FC05D5E0B0849332145FF460A712DAFE8DB1D1760073A63342 | jq .logs[0].events[1].attributes[3].value
+member_xchain152pks72p3awfvpthfsw2ejl25m05hhgm9khgdg_1657274737
+
+进行投票
+> xccli tx gov vote member_xchain152pks72p3awfvpthfsw2ejl25m05hhgm9khgdg_1657274737 0 --from jack -y
+{
+  "height": "0",
+  "txhash": "AD0BAF26D3A9AD22107E8673230FEE0CF3B5ACE6A10FCD0CDC33924B5824C45D"
+}
+> xccli tx gov vote member_xchain152pks72p3awfvpthfsw2ejl25m05hhgm9khgdg_1657274737 0 --from jimmy -y
+{
+  "height": "0",
+  "txhash": "287B5069A8BDB0DED69AE7EB364E5D2B9D55FF6BA771A642DB681A7A1434EF9A"
+}
+
+查看组织
+> xccli query member org org2
+{
+  "orgId": "org2",
+  "orgFullId": "org2",
+  "level": "1",
+  "orgAdminAddress": "xchain1fy8lrz9xdvfcqtt4p9kywx5hhlha0sy0g2h5v6",
+  "subOrgIds": null,
+  "orgAccounts": [
+    "xchain1fy8lrz9xdvfcqtt4p9kywx5hhlha0sy0g2h5v6"
+  ],
+  "orgRoleIds": null,
+  "parentId": "",
+  "ultParent": "org2",
+  "status": "1",
+  "preRevokeStatus": "0"
+}
+
+```
+
+
 ## 账号
    
-账号由一个地址唯一标识，且账号在加入网络时必须选定一个组织和至少一个角色，普通账号的加入由该组织的组织管理员或者直系上级的组织管理员签发交易。
+账号由一个公钥地址唯一标识，且账号在加入网络时必须选定一个组织和至少一个角色，普通账号的加入由该组织的组织管理员或者直系上级的组织管理员签发交易。
 - 添加账号
 ```shell script
 > xccli keys add bob
@@ -124,7 +216,7 @@
 ```                           
 ## 角色
 
-角色分为系统角色和用户自定义角色，系统角色不可删除或修改，用户自定义角色由组织管理员进行创建和管理，创建出来的自定义角色只对当前组织有效。
+角色分为系统角色和用户自定义角色，系统角色不可编辑，用户自定义角色由组织管理员进行创建和管理，创建出来的自定义角色只对当前组织有效。
 
 - 系统角色
   - networkAdmin

@@ -69,8 +69,6 @@ xchain文档
    :caption: RestAPI:
    :numbered:
 
-   RestAPI/RestAPI
-   
 .. toctree::
    :maxdepth: 2
    :caption: 命令参考手册:

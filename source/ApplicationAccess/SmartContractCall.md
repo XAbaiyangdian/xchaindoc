@@ -1,74 +1,39 @@
 # 智能合约调用
 
-## Rust合约
-
-- 命令行调用Rust合约事务方法
-
-    ```
-    PUT='{"合约方法名":{合约参数}}'
-    xccli tx wasm execute [合约名字] "$PUT" --from [账户名字] --gas="80000000" -y --node [节点地址] --chain-id=xachain
-    ```
-
-    命令行调用Rust合约事务方法的具体样例：   
-    ```
-    PUT='{"create":{"key":"key1","value":"value1"}}'
-    xccli tx wasm execute crud "$PUT" --from jack --gas="80000000" -y
-    ```   
-    ![](picture/call1.png )
-
-- 命令行调用Rust合约查询方法
-
-    ```
-    QUERY='{"查询方法名":{查询参数}}'
-    xccli query wasm contract-state smart [合约名字] "$QUERY" --node [节点地址] --chain-id=xachain
-    ```
-
-    命令行调用合约查询方法的具体样例：   
-    ```
-    QUERY='{"find":{"key":"key1"}}'
-    xccli query wasm contract-state smart crud "$QUERY"
-    ```
-    ![](picture/call2.png)
-
-## Go合约
-
-- 命令行调用Go合约事务方法
-
-    ```
-    PUT='{"method":"合约方法名","value":["{合约参数}"]}'
-    xccli tx wasm execute [合约名字] "$PUT" --from [账户名字] --gas="80000000" -y --node [节点地址] --chain-id=xachain
-    ```
-
-  命令行调用Go合约事务方法的具体样例：
-    ```
-    PUT='{"method":"PutStudent","value":["{\"id\":\"1\",\"name\":\"lzh\",\"age\":20,\"score\":80}"]}'
-    xccli tx wasm execute student "$PUT" --from jack --gas="80000000" -y
-    ```
+## 查询合约
+命令行调用合约查询方法：
+> xccli query wasm contract-state smart <合约名> "{"查询方法名":{查询参数}}"
 
 
+结果示例：
+> xccli query wasm contract-state smart test "{\"find\":{\"key\":\"a\"}}"
+> 
+![8DE567A1275C66E6C632C22195ECF672](https://user-images.githubusercontent.com/105793954/176608104-2b705e7d-fde5-4835-9652-6c85dfd05864.jpg)
 
-- 命令行调用Go合约查询方法
 
-    ```
-    QUERY='{"method":"查询方法名","value":["key"]}'
-    xccli query wasm contract-state smart [合约名字] "$QUERY" --node [节点地址] --chain-id=xachain
-    ```
+## 升级合约
+命令行调用升级合约方法：
 
-  命令行调用Go合约查询方法的具体样例：
-    ```
-    QUERY='{"method":"GetStudent","value":["1"]}'
-    xccli query wasm contract-state smart student "$QUERY"
-    ```
+> xccli tx wasm migrate <待升级合约名> <升级的合约> 2 "{}" --from <操作者> -y
 
-## 查询交易状态
+结果示例：
 
-- 查询交易状态代码如下：
+>  xccli tx wasm migrate test test.wasm 2 "{}" --from jack -y
 
-    ```
-    xccli query tx txhash
-    ```
+![image](https://user-images.githubusercontent.com/105793954/176607186-b4f1ae8e-571b-47f2-95d8-3c2f020ed213.png)
 
-    样例说明图如下所示：   
-    ![交易状态查询样例](picture/call3.png "交易状态查询样例")
 
-- SDK调用合约方法见Demo
+## 合约列表
+命令行查询合约列表方法：
+> xccli q wasm list-contract
+
+结果示例:
+
+![image](https://user-images.githubusercontent.com/105793954/176607355-e07f684f-5aab-4ec6-9e30-98a64b82eaad.png)
+
+## 查询操作情况
+执行完每一步操作之后会生成一个txhash,查询该txhash就可以知道操作执行情况
+> xccli q tx < txhash>
+
+结果示例：  
+![image](https://user-images.githubusercontent.com/105793954/176607441-6426f22f-d54a-4e80-a819-ec54da62f985.png)

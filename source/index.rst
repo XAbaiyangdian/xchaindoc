@@ -58,6 +58,7 @@ xchain文档
 
    deployment/Prerequisites
    deployment/StartChain
+   deployment/multinode
 
 .. toctree::
    :maxdepth: 2

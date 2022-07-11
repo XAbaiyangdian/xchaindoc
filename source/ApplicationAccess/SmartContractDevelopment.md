@@ -426,7 +426,7 @@ pub fn migrate(
         })))
    ```
 
-   将合约方法中的id变量打印到log
+   将合约create函数名和attribute_value变量打印到log
 
    ``` rust
    Ok(Response::new()

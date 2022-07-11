@@ -366,11 +366,17 @@ module msg权限的新增和编辑需要网络管理员发起提案并进行投�
 - 权限、组织、账号、角色 状态表
 
   	PENDING    = 0
+  	
   	ACTIVE     = 1
+  	
   	REVOKING   = 2
+  	
   	REVOKED    = 3
+  	
   	FREEZING   = 4
+  	
   	FROZEN     = 5
+  	
   	UNFREEZING = 6
   	
 - 查看权限

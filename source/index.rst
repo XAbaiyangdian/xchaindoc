@@ -36,7 +36,8 @@ xchain文档
 
    quickstart/Prerequisites
    quickstart/StartChain
-   quickstart/Member&Govern
+   quickstart/keystore
+   quickstart/member
    quickstart/Contract
    
 .. toctree::
@@ -55,21 +56,15 @@ xchain文档
    :caption: 网络部署:
    :numbered:
 
-   deployment/docker-deploy
-   deployment/machine-deploy
+   deployment/Prerequisites
+   deployment/StartChain
+   deployment/multinode
 
 .. toctree::
    :maxdepth: 2
    :caption: 案例:
    :numbered:
 
-.. toctree::
-   :maxdepth: 2
-   :caption: RestAPI:
-   :numbered:
-
-   RestAPI/RestAPI
-   
 .. toctree::
    :maxdepth: 2
    :caption: 命令参考手册:

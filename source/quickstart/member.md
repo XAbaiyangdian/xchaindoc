@@ -304,3 +304,158 @@ member_xchain152pks72p3awfvpthfsw2ejl25m05hhgm9khgdg_1657274737
 ```
 
 ## 权限
+
+定义了每一个module msg的调用权限和合约的执行权限,合约的执行权限在部署合约和升级合约时通过指定权限表达式来进行创建和更新，
+module msg权限的新增和编辑需要网络管理员发起提案并进行投票。
+
+- 权限表达式：
+
+   1. 单个表达式项 
+   
+      org & role
+    
+   2. 多个组织项或者角色项用小括号括起来并用逗号分割
+    
+      (orgA,orgB, ...) & (roleA, roleB, ...)
+   
+   3. 多个表达式项用 || 分割
+       
+      eg: org & role || org1 & role1
+      
+      eg: (org1, org2) & role || org1 & (roleA, roleB)
+      
+      eg: (org1, org2, org3) & (roleA, roleB) || (org1, org2) & (roleA, roleB, roleC)
+      
+   4. 组织表达式的模糊匹配和精确匹配
+      
+      1. 精确匹配： org1.dep1.group1
+      
+      2. 模糊匹配通配符： \* 和 \**
+      
+         1. \* 代表该层级的任意组织名
+            
+            eg: org1.* 匹配org1的任意直属子组织
+            
+            eg: org1.*.group1 匹配org1的任意直属子组织的group1
+          
+         2. \*\* 匹配任意深度的组织名
+            
+            eg: **  匹配任意组织
+            
+            eg: **.group1 匹配任意组织的group1
+            
+            eg: org1.** 匹配org1的任意子组织
+   5. 角色通配符：
+      
+      member
+      
+      eg: org1&member 匹配org1的所有角色
+            
+- 权限策略
+  
+  ACCEPT： 1
+  
+  DROP： 2
+
+- 权限唯一标识
+  
+  moduleName_msgType
+  
+  eg: member_addAccount、member_addOrg ...
+  
+- 权限、组织、账号、角色 状态表
+
+  	PENDING    = 0
+  	ACTIVE     = 1
+  	REVOKING   = 2
+  	REVOKED    = 3
+  	FREEZING   = 4
+  	FROZEN     = 5
+  	UNFREEZING = 6
+  	
+- 查看权限
+```shell script
+> xccli query member permissions
+[
+  {
+    "resource": "bank_multiSend",
+    "ownerAddress": "",
+    "policy": "1",
+    "expElements": [
+      {
+        "chainIds": null,
+        "orgExps": [
+          "**"
+        ],
+        "roleIds": [
+          "member"
+        ],
+        "addresses": null
+      }
+    ],
+    "status": "1",
+    "contractAdmin": "",
+    "pendingPermission": {
+      "resource": "",
+      "policy": "0",
+      "expElements": null
+    }
+  },
+  {
+    "resource": "celerain_MsgCelerain",
+    "ownerAddress": "",
+    "policy": "1",
+    "expElements": [
+      {
+        "chainIds": null,
+        "orgExps": [
+          "**"
+        ],
+        "roleIds": [
+          "member"
+        ],
+        "addresses": null
+      }
+    ],
+    "status": "1",
+    "contractAdmin": "",
+    "pendingPermission": {
+      "resource": "",
+      "policy": "0",
+      "expElements": null
+    }
+  },
+  ...,
+  ...,
+]
+```
+
+- 查看指定权限
+```shell script
+> xccli query member permission member addNwAdmin
+{
+  "resource": "member_addNwAdmin",
+  "ownerAddress": "",
+  "policy": "1",
+  "expElements": [
+    {
+      "chainIds": null,
+      "orgExps": [
+        "**"
+      ],
+      "roleIds": [
+        "networkAdmin"
+      ],
+      "addresses": null
+    }
+  ],
+  "status": "1",
+  "contractAdmin": "",
+  "pendingPermission": {
+    "resource": "",
+    "policy": "0",
+    "expElements": null
+  }
+}
+```
+     

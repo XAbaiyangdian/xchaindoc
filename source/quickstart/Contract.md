@@ -1,9 +1,10 @@
 # 智能合约
 
+
 - 合约开发
 
   基于合约Demo，进行rust语言合约开发，Demo为idea的rust工程。
-  [合约Demo下载](https://github.com/XAbaiyangdian/xchaindoc/tree/master/source/ApplicationAccess/contract/contract-crud.zip)
+  [合约Demo下载](https://github.com/XAbaiyangdian/xchaindoc/blob/2.0/source/ApplicationAccess/contract/test.zip)
 
   合约编译：
 
@@ -28,7 +29,7 @@
   xccli tx wasm instantiate -h
 
   举例
-  xccli tx wasm instantiate crud.wasm rust 2 "{}" crud --from jack --gas="80000000" --gas-adjustment="1.2" -y
+  xccli tx wasm instantiate test.wasm rust 2 "{}" test --from jack --gas="800000" --gas-adjustment="1.2" -y
   ```
 
 - 合约调用
@@ -40,8 +41,8 @@
   xccli tx wasm execute -h
 
   举例：
-  PUT='{"create":{"key":"key1","value":"value1"}}'
-  xccli tx wasm execute crud "$PUT" --from jack --gas="80000000" -y
+  PUT='{"create":{"item":{"key":"key1","value":"value1"}}}'
+  xccli tx wasm execute test "$PUT" --from jack --gas="800000" -y
   ```
 
   命令行调用合约查询方法:
@@ -52,7 +53,7 @@
 
   举例
   QUERY='{"find":{"key":"key1"}}'
-  xccli query wasm contract-state smart crud "$QUERY"
+  xccli query wasm contract-state smart test "$QUERY"
   ```
 
   查询交易状态代码如下：

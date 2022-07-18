@@ -9,8 +9,8 @@
 
 
   
-![](picture/流程图1.png)
-![](picture/流程图2.png)
+![](picture/flowchart1.png)
+![](picture/flowchart2.png)
   
   **validator**
   
@@ -29,7 +29,7 @@
 
 **交易的处理逻辑**
 
-![](picture/交易的处理逻辑.png)
+![](picture/Processinglogic.png)
 
 >区块的执行逻辑
 >
@@ -45,12 +45,12 @@
 
 **共识逻辑**
 
-![](picture/共识逻辑.png)
+![](picture/Consensuslogic.png)
 
 ## POA+RAFT
 
 **交易流程**
-![](picture/流程图3.png)
+![](picture/flowchart3.png)
 **如何选出leader(负责出块的节点）？**
 
 没有leader时:

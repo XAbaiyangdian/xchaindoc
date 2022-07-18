@@ -8,8 +8,9 @@
 **交易流程图**
 
 
-  ![image](https://github.com/XAbaiyangdian/xchaindoc/blob/master/source/quickstart/picture/%E6%B5%81%E7%A8%8B%E5%9B%BE1.png)
-  ![image](https://github.com/XAbaiyangdian/xchaindoc/blob/master/source/quickstart/picture/%E6%B5%81%E7%A8%8B%E5%9B%BE2.png)
+  
+![](picture/流程图1.png)
+![](picture/流程图2.png)
   
   **validator**
   
@@ -28,7 +29,7 @@
 
 **交易的处理逻辑**
 
-![image](https://github.com/XAbaiyangdian/xchaindoc/blob/master/source/quickstart/picture/%E4%BA%A4%E6%98%93%E7%9A%84%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91.png)
+![](picture/交易的处理逻辑.png)
 
 >区块的执行逻辑
 >
@@ -44,13 +45,12 @@
 
 **共识逻辑**
 
-![image](https://github.com/XAbaiyangdian/xchaindoc/blob/master/source/quickstart/picture/%E5%85%B1%E8%AF%86%E9%80%BB%E8%BE%91.png)
+![](picture/共识逻辑.png)
 
 ## POA+RAFT
 
 **交易流程**
-![image](https://github.com/XAbaiyangdian/xchaindoc/blob/master/source/quickstart/picture/%E6%B5%81%E7%A8%8B%E5%9B%BE3.png)
-
+![](picture/流程图3.png)
 **如何选出leader(负责出块的节点）？**
 
 没有leader时:

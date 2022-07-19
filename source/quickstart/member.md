@@ -219,11 +219,11 @@ member_xchain152pks72p3awfvpthfsw2ejl25m05hhgm9khgdg_1657274737
 角色分为系统角色和用户自定义角色，系统角色不可编辑，用户自定义角色由组织管理员进行创建和管理，创建出来的自定义角色只对当前组织有效。
 
 - 系统角色
-  - networkAdmin
-  - gateway
-  - orgAdmin
-  - peer
-  - client
+  - `networkAdmin`
+  - `gateway`
+  - `orgAdmin`
+  - `peer`
+  - `client`
 
 - 查看角色
 ```shell script
@@ -312,44 +312,44 @@ module msg权限的新增和编辑需要网络管理员发起提案并进行投�
 
    1. 单个表达式项 
    
-      org & role
+      `org & role`
     
    2. 多个组织项或者角色项用小括号括起来并用逗号分割
     
-      (orgA,orgB, ...) & (roleA, roleB, ...)
+      `(orgA,orgB, ...) & (roleA, roleB, ...)`
    
    3. 多个表达式项用 || 分割
        
-      eg: org & role || org1 & role1
+      eg: `org & role || org1 & role1`
       
-      eg: (org1, org2) & role || org1 & (roleA, roleB)
+      eg: `(org1, org2) & role || org1 & (roleA, roleB)`
       
-      eg: (org1, org2, org3) & (roleA, roleB) || (org1, org2) & (roleA, roleB, roleC)
+      eg: `(org1, org2, org3) & (roleA, roleB) || (org1, org2) & (roleA, roleB, roleC)`
       
    4. 组织表达式的模糊匹配和精确匹配
       
-      1. 精确匹配： org1.dep1.group1
+      1. 精确匹配： `org1.dep1.group1`
       
       2. 模糊匹配通配符： \* 和 \**
       
          1. \* 代表该层级的任意组织名
             
-            eg: org1.* 匹配org1的任意直属子组织
+            eg: `org1.*` 匹配org1的任意直属子组织
             
-            eg: org1.*.group1 匹配org1的任意直属子组织的group1
+            eg: `org1.*.group1` 匹配org1的任意直属子组织的group1
           
          2. \*\* 匹配任意深度的组织名
             
-            eg: **  匹配任意组织
+            eg: `**`  匹配任意层级组织与子组织
             
-            eg: **.group1 匹配任意组织的group1
+            eg: `**.group1` 匹配任意层级组织的子组织group1
             
-            eg: org1.** 匹配org1的任意子组织
+            eg: `org1.**` 匹配org1的任意层级子组织
    5. 角色通配符：
       
-      member
+      `member`
       
-      eg: org1&member 匹配org1的所有角色
+      eg: `org1&member` 匹配org1的所有角色
             
 - 权限策略
   
@@ -361,23 +361,16 @@ module msg权限的新增和编辑需要网络管理员发起提案并进行投�
   
   moduleName_msgType
   
-  eg: member_addAccount、member_addOrg ...
+  eg: `member_addAccount` `member_addOrg` 
   
 - 权限、组织、账号、角色 状态表
-
-  	PENDING    = 0
-  	
-  	ACTIVE     = 1
-  	
-  	REVOKING   = 2
-  	
-  	REVOKED    = 3
-  	
-  	FREEZING   = 4
-  	
-  	FROZEN     = 5
-  	
-  	UNFREEZING = 6
+  - PENDING    = 0
+  - ACTIVE     = 1
+  -	REVOKING   = 2
+  -	REVOKED    = 3
+  -	FREEZING   = 4
+  -	FROZEN     = 5
+  -	UNFREEZING = 6
   	
 - 查看权限
 ```shell script
@@ -434,10 +427,7 @@ module msg权限的新增和编辑需要网络管理员发起提案并进行投�
   ...,
   ...,
 ]
-```
 
-- 查看指定权限
-```shell script
 > xccli query member permission member addNwAdmin
 {
   "resource": "member_addNwAdmin",
@@ -464,4 +454,3 @@ module msg权限的新增和编辑需要网络管理员发起提案并进行投�
   }
 }
 ```
-     

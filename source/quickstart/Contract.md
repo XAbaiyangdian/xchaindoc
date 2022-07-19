@@ -4,7 +4,7 @@
 - 合约开发
 
   基于合约Demo，进行rust语言合约开发，Demo为idea的rust工程。
-  [合约Demo下载](https://github.com/XAbaiyangdian/xchaindoc/blob/2.0/source/ApplicationAccess/contract/test.zip)
+  [合约Demo下载](https://github.com/XAbaiyangdian/xchaindoc/blob/master/source/ApplicationAccess/contract/test.zip)
 
   合约编译：
 

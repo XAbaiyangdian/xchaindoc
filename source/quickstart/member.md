@@ -7,7 +7,7 @@
   网络管理组在区块链初始启动时创建并拥有最少一个网络管理员，网络管理员参与用户最上层组织、网络管理员、系统参数、提案、验证节点等的管理。
 
 - 查看网络管理组
-```shell script
+```gotemplate
 > xccli query member org NetworkOrg
 {
 "orgId": "NetworkOrg",
@@ -31,7 +31,7 @@
   网络管理员的加入、冻结、撤销操作需要其他网络管理员发起提案并进行投票，当投票数超过生效阈值之后提案才会生效。
   
 - 添加网络管理员
-```shell script
+```go
 创建本地用户
 > xccli keys add jimmy
 {

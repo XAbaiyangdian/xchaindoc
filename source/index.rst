@@ -38,9 +38,10 @@ xchain文档
    quickstart/StartChain
    quickstart/keystore
    quickstart/member
-   quickstart/Contract
-   quickstart/consensus
    quickstart/govern
+   quickstart/peer
+   quickstart/consensus
+   quickstart/Contract
    
 .. toctree::
    :maxdepth: 2

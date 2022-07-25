@@ -76,15 +76,106 @@ xchain1dj08aclnx25965gcxz4z240aurmkqz4jus3xht
 
 节点在初始化时除了会创建 `node_key.json`, 还会创建一个验证人密钥 `priv_validator_key.json`，节点在运行过程中会检查自己是否在系统的验证人列表中，在的话就会参与到共识中，否则不参与共识。
 
-- 如何成为验证节点？
+### 如何成为验证节点？
+
+成为验证节点需要使用节点的验证公钥在应用层发起一笔创建验证人的提案，待提案通过并生效后会将验证人更新到共识层的验证人列表中。
   
-  成为验证节点需要使用节点的验证公钥在应用层发起一笔创建验证人的提案，待提案通过并生效后会将验证人更新到共识层的验证人列表中。
-  
-  - 查看节点的验证公钥
-  ```shell script
-  > xcd tendermint show-validator
-  xchainvalconspub1ulx45dfpqvgnkjl787233npl43w9exdct6k2gtn0x3e46mfa6pu357hcez0wk3ej355
-  ```
-  - 网络管理员发起创建验证人的提案
+- 查看节点的验证公钥
+```shell script
+> xcd tendermint show-validator
+xchainvalconspub1ulx45dfpqvgnkjl787233npl43w9exdct6k2gtn0x3e46mfa6pu357hcez0wk3ej355
+```
+- 网络管理员发起创建验证人的提案并投票
+```shell script
+> xccli tx poa createValidator xchainvalconspub1ulx45dfpqvgnkjl787233npl43w9exdct6k2gtn0x3e46mfa6pu357hcez0wk3ej355 10 --effective-time $(($(date +%s) + 120))  --vote-end-time $(($(date +%s) + 120)) --moniker validator2 --from jack -y
+{
+  "height": "0",
+  "txhash": "B630ECEACE305F3006F3F96944B6195CF65C36678A19E799E4AEF4285DE601AA"
+}
+
+找到提案id
+> xccli query tx B630ECEACE305F3006F3F96944B6195CF65C36678A19E799E4AEF4285DE601AA | jq .logs[0].events[0].attributes[1].value
+poa_xchain1x64mmdacpyte4d8kxxa0chdaw0n9h0wh3dj88w_1658725471
+
+对提案投票(如有其他网络管理员需重复此步骤)
+> xccli tx gov vote poa_xchain1x64mmdacpyte4d8kxxa0chdaw0n9h0wh3dj88w_1658725471 0 --from jack -y
+{
+  "height": "0",
+  "txhash": "9FE27E16FF2978A9DC74846D47B6A534D1F281D502EB56207522D07D7558A674"
+}
+
+查看提案
+> xccli query gov proposal poa_xchain1x64mmdacpyte4d8kxxa0chdaw0n9h0wh3dj88w_1658725471
+{
+  "proposer": "xchain1x64mmdacpyte4d8kxxa0chdaw0n9h0wh3dj88w",
+  "proposal_id": "poa_xchain1x64mmdacpyte4d8kxxa0chdaw0n9h0wh3dj88w_1658725471",
+  "router_key": "poa",
+  "op_type": "create_validator",
+  "content": "{\"type\":\"xchain/MsgCreateValidator\",\"value\":{\"description\":{\"moniker\":\"validator2\",\"identity\":\"\",\"website\":\"\",\"security_contact\":\"\",\"details\":\"\"},\"operator_address\":\"xchain1x64mmdacpyte4d8kxxa0chdaw0n9h0wh3dj88w\",\"pubkey\":\"xchainvalconspub1ulx45dfpqvgnkjl787233npl43w9exdct6k2gtn0x3e46mfa6pu357hcez0wk3ej355\",\"power\":\"10\",\"effective_time\":\"1658725595\",\"vote_end_time\":\"1658725595\"}}",
+  "admins": [
+    {
+      "address": "xchain1x64mmdacpyte4d8kxxa0chdaw0n9h0wh3dj88w",
+      "power": "100"
+    }
+  ],
+  "approved_admins": [
+    {
+      "proposal_id": "poa_xchain1x64mmdacpyte4d8kxxa0chdaw0n9h0wh3dj88w_1658725471",
+      "voter_address": "xchain1x64mmdacpyte4d8kxxa0chdaw0n9h0wh3dj88w",
+      "power": "100",
+      "vote_type": "0",
+      "vote_time": "2022-07-25T05:04:51.979507028Z"
+    }
+  ],
+  "refused_admins": null,
+  "abstained_admins": null,
+  "create_time": "2022-07-25T05:04:31.918634283Z",
+  "effective_time": "1658725595",
+  "vote_end_time": "1658725595",
+  "proposal_status": "EffectivePeriod",
+  "propose_level": "0"
+}
+```
+
+- 两分钟后提案生效 查看验证人列表
+```shell script
+> xccli query poa validators
+[
+  {
+    "operator_address": "xchain1x64mmdacpyte4d8kxxa0chdaw0n9h0wh3dj88w",
+    "validator_address": "xchainvaloper1yyjt5r9ul9tunvs872qkxsnhknthz69ehgneep",
+    "consensus_pubkey": "xchainvalconspub1ulx45dfpqgg3k39wem2vcg4es2wug6x0fs7qscwsypr4r9xsh9rzpac5tvejs7hnl2s",
+    "jailed": false,
+    "status": 2,
+    "weight": "100",
+    "pending_weight": "0",
+    "description": {
+      "moniker": "",
+      "identity": "",
+      "website": "",
+      "security_contact": "",
+      "details": ""
+    }
+  },
+  {
+    "operator_address": "xchain1x64mmdacpyte4d8kxxa0chdaw0n9h0wh3dj88w",
+    "validator_address": "xchainvaloper1x06f2ngg3tfv3upgv6q9csvv35g43lgp8zal3p",
+    "consensus_pubkey": "xchainvalconspub1ulx45dfpqvgnkjl787233npl43w9exdct6k2gtn0x3e46mfa6pu357hcez0wk3ej355",
+    "jailed": false,
+    "status": 2,
+    "weight": "10",
+    "pending_weight": "0",
+    "description": {
+      "moniker": "validator2",
+      "identity": "",
+      "website": "",
+      "security_contact": "",
+      "details": ""
+    }
+  }
+]
+```
+
 ## 轻节点
+
 

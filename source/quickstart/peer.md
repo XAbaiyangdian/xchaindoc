@@ -4,10 +4,10 @@
 ### 雄安链中有三类节点 
    - 同步节点
       
-      也称全节点，同步所有区块和交易并验证和执行，记录完整账本数据，但不参与共识投票。 
+      也称全节点，同步所有区块和交易并验证和执行，记录完整账本数据，不参与区块共识。 
    - 共识节点
   
-      在同步节点的基础上参与网络共识。
+      在同步节点的基础上参与区块共识。
    - 轻节点
   
       不同步全量交易数据，只同步与验证区块头信息，提供交易存在性和有效性证明。
@@ -18,7 +18,7 @@
 
 ### 节点id
    
-节点id作为节点在p2p网络层和共识层的唯一标识，当节点启动时需要设置固定连接节点时不仅要知道该节点的`ip:port`，还需要知道该节点的节点id，在节点的p2p连接列表中不可出现两个节点id一样的节点。
+节点id作为节点在p2p网络层和共识层的唯一标识，当节点启动需要连接其他节点时需要知道该节点的网络地址，网络地址表达式为`nodeId@ip:port`。
 - 查看节点id
 ```shell script
 > xcd tendermint show-node-id
@@ -26,20 +26,46 @@ cbf4945f13e34641d7839e26fe2c396a92ff463b
 ```
 ### 节点地址
 
-节点地址和节点id都是由节点密钥的公钥生成的，不同的是节点id仅仅应用于p2p网络与共识层。应用层的用户地址生成规则中使用了`Bech32` 编码，所以为了适应应用层的账户模型，需要一个节点id之外的节点地址来标识一个节点。
+节点地址和节点id都是由节点密钥的公钥生成的，不同的是节点id仅仅应用于p2p网络与共识层。应用层的用户地址生成规则中使用了`Bech32` 编码，所以为了适应应用层的账户模型，需要节点地址来标识一个节点。
 
-查看节点地址
+- 查看节点地址
 ```shell script
 > xcd tendermint show-node-address
-xchain1e06fghcnudryr4urncn0utped2f0733m5frm58
+xchain1dj08aclnx25965gcxz4z240aurmkqz4jus3xht
 ```
 
-### 节点如何加入区块链网络？
+### 新节点如何加入区块链网络？
 
-节点地址需被加入一个应用层组织下并且赋予 `peer` 角色。     
-- 创建账户并赋予`peer` 角色
+#### 新节点地址需被加入一个应用层组织并且赋予 `peer` 角色。     
+- 创建`peer` 角色的账户
 ```shell script
-> xccli tx member addAccount [peer_address] org1 peer --from org1Admin -y
+> xccli tx member addAccount xchain1dj08aclnx25965gcxz4z240aurmkqz4jus3xht org1 peer --from org1Admin -y
+```
+- 查看账户信息
+```shell script
+> xccli query member account xchain1dj08aclnx25965gcxz4z240aurmkqz4jus3xht
+{
+  "address": "xchain1dj08aclnx25965gcxz4z240aurmkqz4jus3xht",
+  "orgId": "org1",
+  "accountRoles": [
+    {
+      "roleId": "peer",
+      "status": "1"
+    }
+  ],
+  "status": "1",
+  "preRevokeStatus": "0",
+  "power": "0"
+}
+```
+#### 拷贝已在网络中节点的创世块配置文件到新节点目录下
+```shell script
+> cp $HOME/.xcd/config/genesis.json $NEW_HOME/.xcd/config/
+```
+
+#### 启动节点并指定连接节点
+```shell script
+> xcd start --p2p.persistent_peers=[nodeId]@[ip]:26656
 ```
 
 ## 共识节点

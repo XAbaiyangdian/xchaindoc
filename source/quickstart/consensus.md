@@ -33,6 +33,7 @@ PBFT算法除了需要容错故障节点之外，还需要容错作恶节点。�
 
 - 第一种情况，f 个有问题节点既是故障节点，又是作恶节点，那么根据小数服从多数的原则，集群里正常节点只需要比f个节点再多一个节点，即 f+1 个节点，正常节点的数量就会比故障节点数量多，那么
 集群就能达成共识。也就是说这种情况支持的最大容错节点数量是 （n-1）/2。
+
 - 第二种情况，故障节点和作恶节点都是不同的节点。那么就会有 f 个问题节点和 f 个故障节点，当发现节点是问题节点后，会被集群排除在外，剩下 f 个故障节点，那么根据小数服从多数的原则，集群
 里正常节点只需要比f个节点再多一个节点，即 f+1 个节点，确节点的数量就会比故障节点数量多，那么集群就能达成共识。所以，所有类型的节点数量加起来就是 f+1 个正确节点，f个故障节点和f个问题
 节点，即 3f+1=n。
@@ -48,32 +49,43 @@ round-based协议是一个状态机，主要有 NewHeigh -> Propose -> Prevote -
 
 - NewHeight
   
-  区块链到达一个新的高度时进入NewHeight阶段。
+  节点刚启动或者运行到一个新的高度时进入NewHeight阶段。
 - Propose
   
-  在每一轮开始前会通过round-robin方式选出一个区块提议人，选出的区块提议人会提交这一轮的proposal, 如果区块提议人锁定在上一轮中的block上，那么区块提议人在本轮中发起的proposal会是锁定的block，并且在proposal中加上proof-of-lock字段。
+  在每一轮开始前会通过round-robin方式选出一个区块提议人，选出的区块提议人会提交这一轮的proposal，如果区块提议人锁定在上一轮中的block上（prevote通过的区块，由于某种原因没有被commit后开启
+  的新一轮propose），那么区块提议人在本轮中发起的proposal会是锁定的block，并且在proposal中加上proof-of-lock字段。proposal的结构如下:
+  
+  |  字段   | 描述  |
+  |  ----  | ----  |
+  | Height  | 区块高度 |
+  | Round  | 当前轮次 |
+  | POLRound  |  prevote通过后的轮次 |
+  | BlockID  |  区块哈希 |
+  | Signature  |  提议人对提案的签名 |
+  
 - Prevote
   
-  在Prevote开始阶段，每个Validator会判断自己是否锁定在上一轮的proposed区块上，如果锁定在之前的proposal区块中，那么在本轮中继续为之前锁定的proposal区块签名并广播prevote投票。否则为当前轮中接收到的proposal区块签名并广播prevote投票。如果由于某些原因当前Validator并没有收到任何proposal区块，那么签名并广播一个空的prevote投票。
+  在Prevote开始阶段，每个Validator判断自己是否锁定在上一轮的proposed区块上（precommit通过的区块），如果锁定在之前的proposal区块中，那么在本轮中继续为之前锁定的proposal区块签名并
+  广播prevote投票,否则为当前轮中接收到的proposal区块签名并广播prevote投票。
+  
+  如果由于某些原因当前Validator并没有收到任何proposal区块，那么签名并广播一个空的prevote投票。
 - Precommit
 
-  在precommit开始阶段，每个Validator会判断，如果收集到了超过2/3 prevote投票，那么为这个区块签名并广播precommit投票，并且当前Validator会锁定在这个区块上，同时释放之前锁定的区块，一个Validator一次只能锁定在一个区块上。如果一个Validator收集到超过2/3空区块（nil)的prevote投票，那么释放之前锁定的区块。处于锁定状态的Validator会为锁定的区块收集prevote投票，并把这些投票打成包放入proof-of-lock中，proof-of-lock会在之后的propose阶段用到。如果一个Validator没有收集到超过2/3的prevote投票，那么它不会锁定在任何区块上。这里，介绍一个重要概念：PoLC，全称为 Proof of Lock Change，表示在某个特定的高度和轮数(height, round)，对某个块或 nil (空块)超过总结点 2/3 的Prevote投票集合，简单来说 PoLC 就是 Prevote 的投票集。
+  在Precommit开始阶段，每个validator判断如果收集到了+2/3 prevote投票，那么为这个区块签名并广播precommit投票，并且将当前Validator会锁定在这个区块上，同时释放之前锁定的区块。
+  如果没有收集到+2/3 prevote投票，那么签名并广播一个空的precommit投票。
   
-  在precommit阶段后期，如果Validator收集到超过2/3的precommit投票，那么Validator进入到commit阶段。否则进入下一轮的propose阶段。
+  处于锁定状态的Validator会为锁定的区块收集prevote投票，并把这些投票打成包放入proof-of-lock中，proof-of-lock会在之后的propose阶段用到。这里介绍一个重要概念：PoLC，
+  全称为 Proof of Lock Change，表示在某个特定的高度和轮数(height, round)，对某个块或 nil (空块)超过总结点 2/3 的Prevote投票集合，简单来说 PoLC 就是 Prevote 的投票集。
+  
+  在precommit阶段后期，如果Validator收集到超过2/3的precommit投票，那么协议进入到commit阶段，如果待precommit阶段超时后还未收集到超过2/3的precommit投票则协议以当前轮次+1开启一轮新的提案。
 - Commit
   
-  commit阶段分为两个并行的步骤： 
-  - Validator收到了被全网commit的区块，Validator会为这个区块广播一个commit投票。 
-  - Validator需要为被全网络precommit的区块，收集到超过2/3commit投票。
+  在整个共识过程的任何阶段，一旦节点收到超过2/3 precommit投票，那么它会立刻进入到commit阶段。在commit阶段节点执行并保存该区块到区块链上，commit结束后协议进入下一个高度的共识进入NewHeight阶段。
   
-  一旦两个条件全部满足了，节点会将commitTime设置到当前时间上，并且会进入NewHeight阶段。
-  
-  在整个共识过程的任何阶段，一旦节点收到超过2/3commit投票，那么它会立刻进入到commit阶段。
-
 协议运行如下:
 ![](picture/Consensuslogic3.jpg)
 
-### round-robin 验证人轮值
+### round-robin 验证人选举
 
 每个节点在启动后都会保存一个验证人集合的副本，当区块链每运行到一个新的高度时都会进行一次验证人选举,选举出proposer负责新区块的提议，一般情况下只需要一轮(round)就能产生一个区块，遇见网络不好或者当前选举出的proposer不在线时可能需要多轮才能出一个块，在对当前高度重新开启一轮区块提议时也会进行一次验证人选举。
 节点之间通过遵循一致的算法来保证在每一个高度的每一轮中选举出的提议人一致，在round-robin算法中有两个关键的参数：

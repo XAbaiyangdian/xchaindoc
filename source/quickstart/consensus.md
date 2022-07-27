@@ -41,43 +41,49 @@ PBFT算法除了需要容错故障节点之外，还需要容错作恶节点。�
 结合上述两种情况，因此 pbft 算法支持的最大容错节点数量是（n-1）/3。
 
 ### 雄安链的PBFT实现
-雄安链针对传统的PBFT算法做了优化，实现了round-based协议，在链达到一个新的Height时候，系统会运行一个round-based协议来决定下一个block。
+雄安链针对传统的PBFT算法做了优化，实现了一个基于Round的协议，协议中使用 `Height` 和初始为0的`round` 来标识一轮Round对一个高度的区块进行共识，当一轮共识不成功时 `round` 自增1进入下一轮Round。 
 
-round-based协议是一个状态机，主要有 NewHeigh -> Propose -> Prevote -> Precommit -> Commit 5个状态，上述每个状态都被称为一个Step，首尾的 NewHeigh和Commit这两个Steps被称为特殊的 Step，而中间
-循环三个Steps则被称为一个 Round，是共识阶段，也是也是算法的核心原理所在。一个块的最终提交（Commit）可能需要多个Round过程，这是因为有许多原因可能会导致当前Round不成功（比如出块节点Offline，提出的块
-是无效块，收到的Prevote或者Precommit票数不够 +2/3 等等），出现这些情况的解决方案就是移步到下一轮，或者增加 timeout 时间。
+该基于Round的协议是一个状态机，主要有 NewHeight -> Propose -> Prevote -> Precommit -> Commit 5个状态，上述每个状态都被称为一个Step，首尾的 NewHeight和Commit是两个特殊的Step，中间
+的三个循环Steps则被称为一个Round，是共识阶段，也是协议的核心原理所在。一个块的最终提交（Commit）可能需要多个Round过程，这是因为有许多原因可能会导致当前Round不成功（比如出块节点Offline，提出的块
+是无效块，收到的Prevote或者Precommit票数不够 +2/3 等）,当一轮Round不成功时便进入下一轮Round并在上一轮的基础上延长timeout时间。
 
 - NewHeight
   
   节点刚启动或者运行到一个新的高度时进入NewHeight阶段。
 - Propose
   
-  在每一轮开始前会通过round-robin方式选出一个区块提议人，选出的区块提议人会提交这一轮的proposal，如果区块提议人锁定在上一轮中的block上（prevote通过的区块，由于某种原因没有被commit后开启
-  的新一轮propose），那么区块提议人在本轮中发起的proposal会是锁定的block，并且在proposal中加上proof-of-lock字段。proposal的结构如下:
+  有三种情况会开启Propose阶段:
+  - NewHeight阶段Mempool接收到新的交易。
+  - NewHeight阶段超时。
+  - 一轮Round失败(Precommit阶段未收集到+2/3的投票)后重启一轮Round。
   
-  |  字段   | 描述  |
-  |  ----  | ----  |
-  | Height  | 区块高度 |
-  | Round  | 当前轮次 |
-  | POLRound  |  prevote通过后的轮次 |
-  | BlockID  |  区块哈希 |
-  | Signature  |  提议人对提案的签名 |
+  在每一轮Propose开始前会通过round-robin方式选出一个区块提议人来提交这一轮的proposal，如果区块提议人锁定在上一轮的block上（+2/3 Prevote通过的区块，由于某种原因没有被commit），那么区块提议人在本轮中
+  发起的proposal会是锁定的Block，在proposal中用`POLRound`标识。提议人创建的区块会被切分成固定大小碎片广播给其他节点。proposal的结构如下:
+  
+  ![](picture/proposal.jpg)
   
 - Prevote
   
-  在Prevote开始阶段，每个Validator判断自己是否锁定在上一轮的proposed区块上（precommit通过的区块），如果锁定在之前的proposal区块中，那么在本轮中继续为之前锁定的proposal区块签名并
+  当节点收到完整的ProposeBlock或者Propose阶段超时后进入Prevote阶段。
+  
+  在Prevote开始阶段，每个Validator判断自己是否锁定在上一轮的proposed区块上（+2/3 Precommit通过的区块），如果锁定在之前的proposal区块中，那么在本轮中继续为之前锁定的proposal区块签名并
   广播prevote投票,否则为当前轮中接收到的proposal区块签名并广播prevote投票。
   
   如果由于某些原因当前Validator并没有收到任何proposal区块，那么签名并广播一个空的prevote投票。
+  
+  在Prevote阶段当接收到+2/3 prevote投票后节点锁定当前Round的Block, 对应同高度新一轮Round中Propose阶段的锁定Block。
 - Precommit
 
-  在Precommit开始阶段，每个validator判断如果收集到了+2/3 prevote投票，那么为这个区块签名并广播precommit投票，并且将当前Validator会锁定在这个区块上，同时释放之前锁定的区块。
+  Prevote阶段超时或者接收到+2/3 prevote投票后进入Precommit阶段。
+  
+  在Precommit开始阶段，每个validator判断如果收集到了+2/3 prevote投票，那么为这个区块签名并广播precommit投票，并且将当前Validator会锁定在这个区块上，同时释放之前锁定的区块，在此阶段锁定的Block
+  对应于Prevote阶段的 *为之前锁定的proposal区块签名并广播prevote投票*。
+  
   如果没有收集到+2/3 prevote投票，那么签名并广播一个空的precommit投票。
   
-  处于锁定状态的Validator会为锁定的区块收集prevote投票，并把这些投票打成包放入proof-of-lock中，proof-of-lock会在之后的propose阶段用到。这里介绍一个重要概念：PoLC，
-  全称为 Proof of Lock Change，表示在某个特定的高度和轮数(height, round)，对某个块或 nil (空块)超过总结点 2/3 的Prevote投票集合，简单来说 PoLC 就是 Prevote 的投票集。
+  处于锁定状态的Validator会为锁定的区块收集prevote投票，并把这些投票打成包放入proof-of-lock中。这里介绍一个重要概念：PoLC(Proof of Lock Change)，表示在某个特定的高度和轮数(height, round)对某个块或 nil (空块)超过总权重 2/3 的Prevote投票集合，简单来说 PoLC 就是 Prevote 的投票集，雄安链中使用锁定Block来预防分叉。
   
-  在precommit阶段后期，如果Validator收集到超过2/3的precommit投票，那么协议进入到commit阶段，如果待precommit阶段超时后还未收集到超过2/3的precommit投票则协议以当前轮次+1开启一轮新的提案。
+  在Precommit阶段后期，如果Validator收集到超过2/3的precommit投票，那么协议进入到Commit阶段，如果待precommit阶段超时后还未收集到超过2/3的precommit投票则协议以当前轮次+1开启一轮新的提案。
 - Commit
   
   在整个共识过程的任何阶段，一旦节点收到超过2/3 precommit投票，那么它会立刻进入到commit阶段。在commit阶段节点执行并保存该区块到区块链上，commit结束后协议进入下一个高度的共识进入NewHeight阶段。
@@ -85,9 +91,15 @@ round-based协议是一个状态机，主要有 NewHeigh -> Propose -> Prevote -
 协议运行如下:
 ![](picture/Consensuslogic3.jpg)
 
+### 如何预防分叉？
+
+假设有-1/3的验证人是拜占庭节点，如果一个验证人在R轮Commit了一个区块B，这表示有 +2/3的验证人在R轮中投了precommits，这意味这有+1/3的诚实验证人会因为PoLC被锁定在R轮，这时候仅剩-2/3的验证人可用于新区块的共识活动，也就不会在同一高度达成一个新的共识区块。
+
+所以雄安链基于BFT共识+锁定区块(PoLC)解决了分叉问题。
+
 ### round-robin 验证人选举
 
-每个节点在启动后都会保存一个验证人集合的副本，当区块链每运行到一个新的高度时都会进行一次验证人选举,选举出proposer负责新区块的提议，一般情况下只需要一轮(round)就能产生一个区块，遇见网络不好或者当前选举出的proposer不在线时可能需要多轮才能出一个块，在对当前高度重新开启一轮区块提议时也会进行一次验证人选举。
+每个节点在启动后都会保存一个验证人集合的副本，当区块链每运行到一个新的高度时都会进行一次验证人选举,选举出proposer负责新区块的提议，一般情况下只需要一轮Round就能产生一个区块，遇见网络不好或者validator Offline时可能需要多轮才能出一个块，在对当前高度重新开启一轮区块提议时也会进行一次验证人选举。
 节点之间通过遵循一致的算法来保证在每一个高度的每一轮中选举出的提议人一致，在round-robin算法中有两个关键的参数：
 - VotingPower
   

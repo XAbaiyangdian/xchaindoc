@@ -42,18 +42,6 @@ xchain文档
    quickstart/peer
    quickstart/consensus
    quickstart/Contract
-   quickstart/sdk
-   
-.. toctree::
-   :maxdepth: 2
-   :caption: XChain应用接入指南:
-   :numbered:
-
-   ApplicationAccess/MediumAccess
-   ApplicationAccess/Environment
-   ApplicationAccess/SmartContractDevelopment
-   ApplicationAccess/SmartContractDeployment
-   ApplicationAccess/SmartContractCall   
 
 .. toctree::
    :maxdepth: 2
@@ -63,6 +51,18 @@ xchain文档
    deployment/Prerequisites
    deployment/StartChain
    deployment/multinode
+
+.. toctree::
+   :maxdepth: 2
+   :caption: 应用接入:
+   :numbered:
+
+   application/MediumAccess
+   application/Environment
+   application/SmartContractDevelopment
+   application/SmartContractDeployment
+   application/SmartContractCall
+   application/sdk
 
 .. toctree::
    :maxdepth: 2

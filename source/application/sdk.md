@@ -5,7 +5,7 @@
 ### 环境准备
 - 下载java sdk
 
-  [xchain-java-sdk-1.0.jar](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/quickstart/xchain-java-sdk-2.0.0.jar)
+  [xchain-java-sdk-1.0.jar](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/application/xchain-java-sdk-2.0.0.jar)
 
 - 将sdk安装到本地maven仓库
 ```shell script
@@ -53,7 +53,7 @@
     File contractFile = new File(contractPath);
     TxResponse txResponse = xchainClient.instantiateContract(org1Admin, contractName, language, contractFile, initMsg, PermissionPolicy.POLICY_DROP, executePerm, lable);
 ```
-   [test.wasm](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/quickstart/test.wasm)
+   [test.wasm](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/application/contract/test.wasm)
 
 - 调用合约
 ```shell script

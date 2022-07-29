@@ -42,6 +42,7 @@ xchain文档
    quickstart/peer
    quickstart/consensus
    quickstart/Contract
+   quickstart/sdk
    
 .. toctree::
    :maxdepth: 2

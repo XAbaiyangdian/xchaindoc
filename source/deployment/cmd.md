@@ -3,19 +3,19 @@
 ## 环境准备
 - 节点进程命令行工具
 
-  [xcd](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/deployment/xcd/xcd)
+  [xcd](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/deployment/cmd/xcd)
 - 客户端命令行工具
 
-  [xccli](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/deployment/xcd/xccli)
+  [xccli](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/deployment/cmd/xccli)
 - 合约依赖的动态库
 
-  [libwasmvm.x86_64.so](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/deployment/xcd/libwasmvm.x86_64.so)
+  [libwasmvm.x86_64.so](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/deployment/cmd/libwasmvm.x86_64.so)
 - 创世节点初始化脚本
 
-  [init_genesis.sh](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/deployment/xcd/init_genesis.sh)
+  [init_genesis.sh](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/deployment/cmd/init_genesis.sh)
 - 普通节点初始化脚本
 
-  [init_follow.sh](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/deployment/xcd/init_follow.sh)
+  [init_follow.sh](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/deployment/cmd/init_follow.sh)
 
 - 两个命令行工具移到用户可执行文件目录
 ```shell script
@@ -116,7 +116,7 @@ e5fea26c8872b9c3fda27aa4a864d85bbc9729a7
 
 - 启动新节点并连接创世节点
 ```shell script
-#[IP]为创世节点的IP地址
+# [IP]为创世节点的IP地址
 > xcd start --p2p.persistent_peers=e5fea26c8872b9c3fda27aa4a864d85bbc9729a7@[IP]:26656
 ```
 

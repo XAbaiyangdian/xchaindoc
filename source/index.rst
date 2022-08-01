@@ -34,8 +34,7 @@ xchain文档
    :caption: 快速入门:
    :numbered:
 
-   quickstart/Prerequisites
-   quickstart/StartChain
+   quickstart/quickdeploy
    quickstart/keystore
    quickstart/member
    quickstart/govern

@@ -36,13 +36,13 @@ state.go存放合约使用的存储定义和数据结构定义。
 例如：Dome中定义了item结构体，存储item和取出item方法。  
 
  ![image](https://user-images.githubusercontent.com/105793954/176583836-adfdd583-3ad8-48b9-9e5d-1f3d05d06e85.png)
- 
- > storage.Set 传入[]byte类型的key , value.   Demo里saveitem方法将item转化为json格式作为value进行存储 , 可根据自己的需求进行变换。  
- > 
- > storage.Get 传入[]byte类型的key, 返回value.  
- > 
- > 关于storage的方法还有Range，Remove(删除)， 详情查看std/imports.go
- 
+``` 
+  storage.Set 传入[]byte类型的key , value.   Demo里saveitem方法将item转化为json格式作为value进行存储 , 可根据自己的需求进行变换。  
+  
+  storage.Get 传入[]byte类型的key, 返回value.  
+  
+  关于storage的方法还有Range，Remove(删除)， 详情查看std/imports.go
+ ```
 - **msg.go**
 
 msg.go存放合约接收消息的定义。 
@@ -78,21 +78,21 @@ Migrate 升级合约
 > Execute函数相当于一个分流器，根据传入的参数去执行不同的函数，每类消息里的case需要跟msg.go里的定义相对应，下面要执行的函数根据业务需求来写，需要返回的结构体对的response。
 
 Demo中的executeCreatea函数示例：  
-
-> func executeCreate(deps *std.Deps, _ types.Env, _ types.MessageInfo, create *Create) (*types.Response, error) {  
-> 
-> err := SaveItem(deps.Storage, create.Item)  
-> 
-> 	if err != nil {  
-> 	
-> 		return nil, err  
-> 		
-> 	}  
-> 	
->         	return &types.Response{}, nil  
->         	
-> }
-
+```
+ func executeCreate(deps *std.Deps, _ types.Env, _ types.MessageInfo, create *Create) (*types.Response, error) {  
+ 
+ err := SaveItem(deps.Storage, create.Item)  
+ 
+ 	if err != nil {  
+ 	
+ 		return nil, err  
+ 		
+ 	}  
+ 	
+         	return &types.Response{}, nil  
+         	
+ }
+```
 
 合约调用合约写法:    
 
@@ -109,10 +109,11 @@ Demo中的executeCreatea函数示例：
 
 ![image](https://user-images.githubusercontent.com/105793954/176585117-f1aad7f6-43db-4a7f-b121-ad2b25e27691.png)
 
-
-> Query函数与Execute类似，根据传入的参数去执行不同的函数，每类消息里的case需要跟msg.go里的定义相对应，下面要执行的函数根据业务需求来写，需要返回的结构体对的response。
+```
+ Query函数与Execute类似，根据传入的参数去执行不同的函数，每类消息里的case需要跟msg.go里的定义相对应，下面要执行的函数根据业务需求来写，需要返回的结构体对的response。
 
 合约本质上是对链存储的操作。  
+```
 
 ![image](https://user-images.githubusercontent.com/105793954/177489864-33915487-6ab7-4aa5-8177-f06a30827b14.png)
 
@@ -133,37 +134,37 @@ Demo中的executeCreatea函数示例：
 获取链相关信息
 
 Env：定义了此合约运行所在的区块链环境的状态，必须只包含受信任的数据 - Tx 本身中没有尚未验证的数据。Env在传递到wasm合约之前由json转换为byte切片。
-
->  包含：Block （区块信息，含有高度、时间、链ID）  
->  
-> Contract（合约信息，含合约地址）  
-> 
-> Transaction（交易信息,含有唯一链的事务标识符，以供查询）
-
+```
+  包含：Block （区块信息，含有高度、时间、链ID）  
+  
+ Contract（合约信息，含合约地址）  
+ 
+ Transaction（交易信息,含有唯一链的事务标识符，以供查询）
+```
 获取当前区块高度：
-
->  env.Block.Height    
-
+```
+ env.Block.Height    
+```
 获取区块生成时间：
-
-> env.Block.Time
-
+```
+ env.Block.Time
+```
 MessageInfo： 包含执行者的地址和一起发送到合同的资金金额的信息。 
 
 获取交易发送者地址：
-
-> types.MessageInfo.Sender
-
+```
+ types.MessageInfo.Sender
+```
 Response: 当instantiate/execute/migrate成功时的返回值。
-
-> 包含：Message（直接来自contract，是对操作的请求。）  
-> 
-> Data  
-> 
-> Attributes（日志事件的属性）  
-> 
-> Events（事件）  
-
+```
+ 包含：Message（直接来自contract，是对操作的请求。）  
+ 
+ Data  
+ 
+ Attributes（日志事件的属性）  
+ 
+ Events（事件）  
+```
 其中messages用于跨模块与跨合约操作，Attributes用于写日志，data用于返回值供链使用  
 
    示例如下：
@@ -211,13 +212,13 @@ func (r Response) SetData(b []byte) Response {
 ```
 
 Deps：传递给contract的可变入口点的依赖。  
-
-> 包含：Storage（提供对数据持久化层的读写访问）  
-> 
->      Api（Api提供对常见实用工具的访问，如地址解析和验证。）  
->      
->      Querier（用于查询其他合同的信息。） 
-
+```
+ 包含：Storage（提供对数据持久化层的读写访问）  
+ 
+      Api（Api提供对常见实用工具的访问，如地址解析和验证。）  
+      
+      Querier（用于查询其他合同的信息。） 
+```
 
 
 

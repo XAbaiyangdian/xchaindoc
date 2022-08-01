@@ -141,7 +141,6 @@ raft 算法只支持容错故障节点，假设集群总节点数为n，故障�
 ### 节点类型
 Raft每个共识节点只能如下三种身份之一：**Leader**、**Follower**以及**Candidate**，节点由`isLeader`、`isSelected`两个bool型字段来区分共识节点的类型
 
-![](picture/relation.png)
 
 **leader**:由Follower节点选举而来，在每一次共识过程中有且仅有一个Leader节点，由Leader全权负责从交易池中取出交易、打包交易组成区块并将区块上链；
 
@@ -158,6 +157,7 @@ Raft算法将时间划分为不定长度的任期Terms，Terms为连续的数字
 ### 节点间状态转换
 节点类型之间转换关系如下图所示：
 
+![](picture/relation.png)
 
 leader-->follower:(1)任期结束 （2）转移领导权给一个很活跃的节点
 

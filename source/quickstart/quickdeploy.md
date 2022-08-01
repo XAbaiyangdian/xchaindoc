@@ -24,9 +24,8 @@ REPOSITORY              TAG        IMAGE ID       CREATED         SIZE
 xchain                  latest     22ebd18c8fbe   9 minutes ago   165MB
 ```
 
-## 部署网络
 
-### 启动创世节点
+## 单节点部署
 
 - 启动创世节点
 ```shell script
@@ -104,77 +103,95 @@ I[2022-07-04|07:33:18.632] Committed state                              module=s
 }
 ```
 
-### 新建节点并加入网络
+## 多节点部署
 
-- 准备新节点的配置目录
+- 安装 jq：
 ```shell script
-> mkdir -p /data/node2/.xcd/config/
+ubuntu:
+> apt install jq -y
+
+centos:
+> yum install jq -y
 ```
 
-- 获取要加入网络的创世配置文件
+- 获取脚本:
+
+  [xchain_net.sh](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/deployment/xchain_net.sh)
+
+- 脚本可执行权限:
 ```shell script
-> docker cp xchain1:/root/.xcd/config/genesis.json /data/node2/.xcd/config/
+> chmod +x xchain_net.sh
 ```
 
-- 查看创世节点的nodeid
+- 启动多节点网络:
 ```shell script
-> docker exec xchain1 xcd tendermint show-node-id
-ce86356fcb03a6f1f9b0296d774dca8daa5f39af
-```
-
-- 启动新节点并连接创世节点
-```shell script
-> docker run -d --name xchain2 \
-              -v /data/node2/.xcd:/root/.xcd \
-              -v /data/node2/.xccli:/root/.xccli \
-              -p 26666:26656 \
-              -p 26667:26657 \
-              -e NODEORDER=follow \
-              --link xchain1:xchain1 \
-              xchain:latest --p2p.persistent_peers=ce86356fcb03a6f1f9b0296d774dca8daa5f39af@xchain1:26656
-```
-
-这时新节点还未能通过创世节点同步区块，需要将新节点的节点地址加入区块链网络中并赋予peer角色。
-
-- 查看新节点的节点地址
-```shell script
-> docker exec xchain2 xcd tendermint show-node-address
-xchain1ma3sxsnutd9mns4phxj3qkmxtq6ny9jw2xlkvs
-```
-
-- 在创世节点发起添加账户交易
-```shell script
-> docker exec xchain1 xccli tx member addAccount xchain1ma3sxsnutd9mns4phxj3qkmxtq6ny9jw2xlkvs org1 peer --from org1Admin -y
+> ./xchain_net.sh up
+=================================================
+up xchain_net
+=================================================
+start xchain1
+886786a656ee0ac84aee3278e678d49b14d4456cb67a5ec0c1bd980238e5ed2b
+start xchain2
+0bd7befb7dcfbb017db2e963aa662e908dafcafebe919da833ecfd9feeb5e10b
 {
   "height": "0",
-  "txhash": "BF4381F5F30A9A17151A8211DA3FD2714BCCC8B686E5BD2C1E6119DA398474C4"
+  "txhash": "969B524B6EB0D2EB174B455A1123AF9E8B8B68357E65D73152E4356F94824133"
+}
+start xchain3
+7bfb209c37270cfb6326d561daf3b9e60033a885ef16a3e131223cfc06841615
+{
+  "height": "0",
+  "txhash": "02E476FB1D58AA80C2C4888F2A022DEFC6B8A759DC28BBD1DC03DE62CB517069"
+}
+start xchain4
+3ae874132bbcc80e3f092b6c378c84e10f21c0dc6d1c51b18d6266fc1d43225c
+{
+  "height": "0",
+  "txhash": "40D8529CCEF7017DFE127DC00AA1F9826C2DAB9FE3F659BD106E106507D299A0"
+}
+{
+  "height": "0",
+  "txhash": "9969B9A712AB88DD223E88659EA26C16701331DB6F156F41FD69FAA88F3ED211"
+}
+{
+  "height": "0",
+  "txhash": "6BE7CA852A9E4E01F855F928A61A2A177256F4C8BB4D80646C2E643852B24B5B"
+}
+{
+  "height": "0",
+  "txhash": "6EAA41C7F7DD8551051CEE25C7AD7C66CF4EBE45D5EBD47016AA15F54C9A79C4"
 }
 ```
 
-- 查看节点日志
+- 查看网络
 ```shell script
-> docker logs -f xchain2
-I[2022-07-04|08:08:37.851] starting ABCI with Tendermint                module=main 
-!!!!!!!!NewNode enter, consensusPlugin: pbft 
-!!!!!!!!!!createBlockchainReactor, fastsync version: v0 
-E[2022-07-04|08:08:37.894] Can't add peer's address to addrbook         module=p2p err="Cannot add non-routable address ce86356fcb03a6f1f9b0296d774dca8daa5f39af@172.17.0.2:26656"
-E[2022-07-04|08:08:40.401] Stopping peer for error                      module=p2p peer="Peer{MConn{172.17.0.2:26656} ce86356fcb03a6f1f9b0296d774dca8daa5f39af out}" err=EOF
-E[2022-07-04|08:08:45.422] Stopping peer for error                      module=p2p peer="Peer{MConn{172.17.0.2:26656} ce86356fcb03a6f1f9b0296d774dca8daa5f39af out}" err=EOF
-E[2022-07-04|08:08:50.444] Stopping peer for error                      module=p2p peer="Peer{MConn{172.17.0.2:26656} ce86356fcb03a6f1f9b0296d774dca8daa5f39af out}" err=EOF
-E[2022-07-04|08:08:55.457] Stopping peer for error                      module=p2p peer="Peer{MConn{172.17.0.2:26656} ce86356fcb03a6f1f9b0296d774dca8daa5f39af out}" err=EOF
-E[2022-07-04|08:09:00.469] Stopping peer for error                      module=p2p peer="Peer{MConn{172.17.0.2:26656} ce86356fcb03a6f1f9b0296d774dca8daa5f39af out}" err=EOF
-I[2022-07-04|08:09:05.698] Executed block                               module=state height=1 validTxs=0 invalidTxs=0
-I[2022-07-04|08:09:05.700] Committed state                              module=state height=1 txs=0 appHash=3D707D36DF8A8E0E104FBF168F92380DEB8985406D992D4AF50964A04D9E4DE2
-I[2022-07-04|08:09:05.704] Executed block                               module=state height=2 validTxs=0 invalidTxs=0
-I[2022-07-04|08:09:05.705] Committed state                              module=state height=2 txs=0 appHash=3D707D36DF8A8E0E104FBF168F92380DEB8985406D992D4AF50964A04D9E4DE2
-I[2022-07-04|08:09:07.118] Executed block                               module=state height=3 validTxs=0 invalidTxs=0
-I[2022-07-04|08:09:07.119] Committed state                              module=state height=3 txs=0 appHash=3D707D36DF8A8E0E104FBF168F92380DEB8985406D992D4AF50964A04D9E4DE2
-I[2022-07-04|08:09:07.123] Executed block                               module=state height=4 validTxs=0 invalidTxs=0
-I[2022-07-04|08:09:07.124] Committed state                              module=state height=4 txs=0 appHash=3D707D36DF8A8E0E104FBF168F92380DEB8985406D992D4AF50964A04D9E4DE2
-I[2022-07-04|08:09:07.127] Executed block                               module=state height=5 validTxs=0 invalidTxs=0
-I[2022-07-04|08:09:07.128] Committed state                              module=state height=5 txs=0 appHash=3D707D36DF8A8E0E104FBF168F92380DEB8985406D992D4AF50964A04D9E4DE2
-I[2022-07-04|08:09:07.133] Executed block                               module=state height=6 validTxs=0 invalidTxs=0
-I[2022-07-04|08:09:07.135] Committed state                              module=state height=6 txs=0 appHash=3D707D36DF8A8E0E104FBF168F92380DEB8985406D992D4AF50964A04D9E4DE2
+> docker ps
+CONTAINER ID   IMAGE           COMMAND                  CREATED          STATUS          PORTS                                                                                          NAMES
+3ae874132bbc   xchain:latest   "/bin/sh /root/start…"   17 seconds ago   Up 16 seconds   0.0.0.0:26646->26656/tcp, :::26646->26656/tcp, 0.0.0.0:26647->26657/tcp, :::26647->26657/tcp   xchain4
+7bfb209c3727   xchain:latest   "/bin/sh /root/start…"   22 seconds ago   Up 21 seconds   0.0.0.0:26636->26656/tcp, :::26636->26656/tcp, 0.0.0.0:26637->26657/tcp, :::26637->26657/tcp   xchain3
+0bd7befb7dcf   xchain:latest   "/bin/sh /root/start…"   27 seconds ago   Up 26 seconds   0.0.0.0:26626->26656/tcp, :::26626->26656/tcp, 0.0.0.0:26627->26657/tcp, :::26627->26657/tcp   xchain2
+886786a656ee   xchain:latest   "/bin/sh /root/start…"   37 seconds ago   Up 35 seconds   0.0.0.0:26616->26656/tcp, :::26616->26656/tcp, 0.0.0.0:26617->26657/tcp, :::26617->26657/tcp   xchain1
 ```
 
-拥有两个节点的区块链网络建设完成。
+- 关闭网络
+```shell script
+> ./xchain_net.sh down
+=================================================
+down xchain_net
+=================================================
+down xchain1
+xchain1
+xchain1
+down xchain2
+xchain2
+xchain2
+down xchain3
+xchain3
+xchain3
+down xchain4
+xchain4
+xchain4
+```
+
+
+

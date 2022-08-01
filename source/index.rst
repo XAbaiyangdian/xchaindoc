@@ -47,9 +47,8 @@ xchain文档
    :caption: 网络部署:
    :numbered:
 
-   deployment/Prerequisites
-   deployment/StartChain
-   deployment/multinode
+   deployment/docker
+   deployment/cmd
 
 .. toctree::
    :maxdepth: 2

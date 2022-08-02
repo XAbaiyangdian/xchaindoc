@@ -5,7 +5,7 @@
 ### 环境准备
 - 下载java sdk
 
-  [xchain-java-sdk-1.0.jar](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/application/xchain-java-sdk-2.0.0.jar)
+  [xchain-java-sdk-2.0.0.jar](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/application/xchain-java-sdk-2.0.0.jar)
 
 - 将sdk安装到本地maven仓库
 ```shell script

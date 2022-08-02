@@ -24,7 +24,7 @@ Available Commands:
 ```   
 - 创建用户（助记词信息需要用户保存，密钥库不存储助记词）
 ```
-> xccli keys add <font color="red">tom</font>
+> xccli keys add tom
 {
   "name": "tom",****************
   "type": "local",

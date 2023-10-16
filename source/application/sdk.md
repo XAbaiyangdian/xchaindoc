@@ -7,7 +7,7 @@
 #### xchain-java-sdk示例
 - 示例xchain-java-sdk源码，包含详细注释
 
-   [xchain-java-sdk.zip](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/application/contract/xchain-java-sdk-demo.zip)
+   [xchain-java-sdk-demo.zip](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/application/contract/xchain-java-sdk-demo.zip)
 
 - 示例存证合约文件
 

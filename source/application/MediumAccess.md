@@ -4,3 +4,6 @@
 
 1. Rust智能合约Demo：[Rust智能合约Demo](https://github.com/XAbaiyangdian/xchaindoc/blob/master/source/ApplicationAccess/contract/test.zip)
 2. Go智能合约Demo：[Go智能合约Demo](https://github.com/XAbaiyangdian/xchaindoc/blob/master/source/ApplicationAccess/contract/cosmwasm-go.zip)
+3. Rust示例存证合约：[Rust示例存证合约](https://github.com/XAbaiyangdian/xchaindoc/blob/master/source/ApplicationAccess/contract/contract-evidence.zip)
+4. Rust示例溯源合约：[Rust示例溯源合约](https://github.com/XAbaiyangdian/xchaindoc/blob/master/source/ApplicationAccess/contract/contract-trace.zip)
+

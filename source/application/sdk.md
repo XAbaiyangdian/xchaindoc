@@ -152,6 +152,17 @@
     System.out.println(blockInfo);
     System.out.println(blockInfo.getBlockTime());
 ```
+### 事件监听、扫块示例
+- 示例scan-demo源码
+
+   [scan-demo.zip](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/application/contract/scan-demo.zip)
+
+- 示例存证合约文件
+
+   [evidence_scan.wasm](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/application/contract/evidence_scan.wasm)
+- 示例存证合约源码 与contract-evidence区别在于调用合约时抛出事件
+
+   [contract-evidence-scan.zip](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/application/contract/contract-evidence_scan.zip)
 
 ## GO SDK
 

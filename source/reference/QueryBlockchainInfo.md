@@ -51,7 +51,7 @@ curl -X GET "#{address}:26657/tx_search?query=%22tx.height%3E#{min_height}%20and
 - tx_per_page:每页打印交易数
 - order:排序方式，desc为降序，asc为增序
 
-### 示例：
+### 举例：
 - 查询高度大于400小于500的区块包含的所有交易，降序打印，每页一条打印一页，也就是只打印最新的一条交易，返回的total_count为交易总数
 
 ```shell script

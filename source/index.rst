@@ -73,6 +73,7 @@ xchain文档
    :numbered:
 
    reference/reference
+   reference/QueryBlockchainInfo
 
 .. toctree::
    :maxdepth: 2

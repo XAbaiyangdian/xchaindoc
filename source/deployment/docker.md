@@ -35,6 +35,7 @@ xchain                  latest     22ebd18c8fbe   9 minutes ago   165MB
      -v /data/node1/.xccli:/root/.xccli \
      -p 26656:26656 \
      -p 26657:26657 \
+     -e CHAIN_ID=xchainid \
      xchain:latest
 
 > docker ps

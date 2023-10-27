@@ -46,10 +46,11 @@ xccli query tx B570F74EF155B6EFEE7320DD878FD24974AFAC210D29DBFD3A7A69F1F61883A2
 ## 查询所有交易
 
 ```shell script
-curl -X GET "#{address}:26657/tx_search?query=%22tx.height%3E#{min_height}%20and%20tx.height%3C#{max_height}%22&page=#{page_num}&per_page=#{tx_per_page}&order_by=%22#{order}%22" -H "accept: application/json"
+curl -X GET "#{address}:#{port}/tx_search?query=%22tx.height%3E#{min_height}%20and%20tx.height%3C#{max_height}%22&page=#{page_num}&per_page=#{tx_per_page}&order_by=%22#{order}%22" -H "accept: application/json"
 ```
 ### 参数说明：
 - address:节点地址
+- port:节点端口
 - min_height:区块高度下限，查询区块高度>min_height
 - max_height:区块高度上限，查询区块高度<max_height
 - page_num:打印页数

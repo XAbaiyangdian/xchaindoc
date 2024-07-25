@@ -9,19 +9,19 @@
 
 - 下载xchain镜像：
 
-  [xchaixchain1：n.tar](https://xchain-1306199973.cos.ap-beijing.myqcloud.com/image/xchain.tar)
+  [xchain210.tar](https://xchain-1306199973.cos.ap-beijing.myqcloud.com/image/xchain210.tar)
 
 - 加载xchain镜像：
 
 ```shell script
-docker load < xchain.tar   
+docker load < xchain210.tar   
 ```
 - 查看镜像
 
 ```shell script
 > docker images
 REPOSITORY              TAG        IMAGE ID       CREATED         SIZE
-xchain                  latest     22ebd18c8fbe   9 minutes ago   165MB
+xchain                  2.1.0     9330dfbbbfa8   9 minutes ago   165MB
 ```
 
 ## 部署网络
@@ -35,11 +35,12 @@ xchain                  latest     22ebd18c8fbe   9 minutes ago   165MB
      -v /data/node1/.xccli:/root/.xccli \
      -p 26656:26656 \
      -p 26657:26657 \
-     xchain:latest
+     -e CHAIN_ID=xachain \
+     xchain:2.1.0
 
 > docker ps
 CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS                                                                   NAMES
-eface923382c   xchain:latest   "/bin/sh /root/start…"   3 seconds ago   Up 2 seconds   0.0.0.0:26656-26657->26656-26657/tcp, :::26656-26657->26656-26657/tcp   xchain1
+eface923382c   xchain:2.1.0   "/bin/sh /root/start…"   3 seconds ago   Up 2 seconds   0.0.0.0:26656-26657->26656-26657/tcp, :::26656-26657->26656-26657/tcp   xchain1
 ```
 
 - 查看节点日志
@@ -129,9 +130,10 @@ ce86356fcb03a6f1f9b0296d774dca8daa5f39af
               -v /data/node2/.xccli:/root/.xccli \
               -p 26666:26656 \
               -p 26667:26657 \
+              -e CHAIN_ID=xachain \
               -e NODEORDER=follow \
               --link xchain1:xchain1 \
-              xchain:latest --p2p.persistent_peers=ce86356fcb03a6f1f9b0296d774dca8daa5f39af@xchain1:26656
+              xchain:2.1.0 --p2p.persistent_peers=ce86356fcb03a6f1f9b0296d774dca8daa5f39af@xchain1:26656
 ```
 
 这时新节点还未能通过创世节点同步区块，需要将新节点的节点地址加入区块链网络中并赋予peer角色。

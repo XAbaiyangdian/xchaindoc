@@ -21,7 +21,7 @@ xchain                            2.1.0            9330dfbbbfa8   2 weeks ago   
      -p 26656:26656 \
      -p 26657:26657 \
      -e CHAIN_ID=xachain \
-     xchain:latest
+     xchain:2.1.0
 
 > docker ps
 CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS                                                                   NAMES
@@ -118,7 +118,7 @@ ce86356fcb03a6f1f9b0296d774dca8daa5f39af
               -e CHAIN_ID=xachain \
               -e NODEORDER=follow \
               --link xchain1:xchain1 \
-              xchain:latest --p2p.persistent_peers=ce86356fcb03a6f1f9b0296d774dca8daa5f39af@xchain1:26656
+              xchain:2.1.0 --p2p.persistent_peers=ce86356fcb03a6f1f9b0296d774dca8daa5f39af@xchain1:26656
 ```
 
 将xchain2的节点地址通过xchain1加入区块链组织并赋予peer角色

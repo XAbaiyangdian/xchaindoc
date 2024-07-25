@@ -5,11 +5,11 @@
 ### 环境准备
 - 下载java sdk
 
-  [xchain-java-sdk-1.0.jar](https://github.com/XAbaiyangdian/xchaindoc/raw/master/source/application/xchain-java-sdk-2.0.0.jar)
+  [xchain-java-sdk-1.0.jar](https://github.com/XAbaiyangdian/xchaindoc/raw//source/application/xchain-java-sdk-2.1.0.jar)
 
 - 将sdk安装到本地maven仓库
 ```shell script
-> mvn install:install-file -Dfile="xchain-java-sdk-2.0.0.jar" -DgroupId="org.xbl.xchain" -DartifactId="xchain-java-sdk" -Dversion="2.0.0" -Dpackaging=jar
+> mvn org.apache.maven.plugins:maven-install-plugin:3.1.1:install-file -Dfile="xchain-java-sdk-2.1.0.jar"
 ```
 
 - pom中添加依赖
@@ -17,7 +17,7 @@
 <dependency>
     <groupId>org.xbl.xchain</groupId>
     <artifactId>xchain-java-sdk</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 ### sdk使用
@@ -25,12 +25,12 @@
 ```shell script
     String url = "http://ip:port";
     String chainId = "xachain";
-    String mainPrefix = "xchain";
-    XchainClient xchainClient = new XchainClient(url, chainId);
+    XchainClient xchainClient = XchainClient(url, chainId, Version.NONCE)
 ```
 
 - 构建账号
 ```shell script
+    String mainPrefix = "xchain";
     String org1AdminMnemonic = "winter angry holiday castle involve fade answer answer unique history harvest local goose south type genuine void memory meadow wasp increase portion suffer hello";
     Account org1Admin = Account.buildAccount(new KeyInfo(org1AdminMnemonic, AlgorithmType.SM2, mainPrefix));
 ```

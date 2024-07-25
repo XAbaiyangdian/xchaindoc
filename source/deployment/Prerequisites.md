@@ -7,5 +7,5 @@
 
 下载xchain镜像：
 
- [xchain.tar](https://xchain-1306199973.cos.ap-beijing.myqcloud.com/image/xchain.tar)
+ [xchain210.tar](https://xchain-1306199973.cos.ap-beijing.myqcloud.com/image/xchain210.tar)
 

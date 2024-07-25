@@ -11,7 +11,7 @@ centos:
 
 获取脚本:
 
-[xchain_net.sh](https://github.com/XAbaiyangdian/xchaindoc/blob/master/source/deployment/xchain_net.sh)
+[xchain_net.sh](https://github.com/XAbaiyangdian/xchaindoc/blob/v2.1.0/source/deployment/xchain_net.sh)
 
 可执行权限:
 ```shell script

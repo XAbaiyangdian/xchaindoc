@@ -3,13 +3,13 @@
 加载xchain镜像：
 
 ```shell script
-docker load < xchain.tar   
+docker load < xchain210.tar   
 ```
 
 ```shell script
 > docker images
-REPOSITORY              TAG        IMAGE ID       CREATED         SIZE
-xchain                  latest     22ebd18c8fbe   9 minutes ago   165MB
+REPOSITORY                        TAG              IMAGE ID       CREATED         SIZE
+xchain                            2.1.0            9330dfbbbfa8   2 weeks ago     176MB
 ```
 
 启动创世节点xchain1：
@@ -20,11 +20,12 @@ xchain                  latest     22ebd18c8fbe   9 minutes ago   165MB
      -v /data/node1/.xccli:/root/.xccli \
      -p 26656:26656 \
      -p 26657:26657 \
+     -e CHAIN_ID=xachain \
      xchain:latest
 
 > docker ps
 CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS                                                                   NAMES
-eface923382c   xchain:latest   "/bin/sh /root/start…"   3 seconds ago   Up 2 seconds   0.0.0.0:26656-26657->26656-26657/tcp, :::26656-26657->26656-26657/tcp   xchain1
+eface923382c   xchain:2.1.0   "/bin/sh /root/start…"   3 seconds ago   Up 2 seconds   0.0.0.0:26656-26657->26656-26657/tcp, :::26656-26657->26656-26657/tcp   xchain1
 ```
 
 查看节点日志
@@ -114,6 +115,7 @@ ce86356fcb03a6f1f9b0296d774dca8daa5f39af
               -v /data/node2/.xccli:/root/.xccli \
               -p 26666:26656 \
               -p 26667:26657 \
+              -e CHAIN_ID=xachain \
               -e NODEORDER=follow \
               --link xchain1:xchain1 \
               xchain:latest --p2p.persistent_peers=ce86356fcb03a6f1f9b0296d774dca8daa5f39af@xchain1:26656
